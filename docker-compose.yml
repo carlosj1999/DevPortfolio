@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: devportfolio-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    # env_file:
+    #   - ./backend/.env    # optional, if you add env vars
+    depends_on:
+      - db   
+
+  frontend:
+    build:
+      context: .
+    dockerfile: Dockerfile.frontend
+    container_name: devportfolio-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000   # adjust for backend endpoint
+    depends_on:
+      - backend
+
+  # Optional database example (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    container_name: devportfolio-db
+    environment:
+      POSTGRES_DB: devportfolio
+      POSTGRES_USER: devuser
+      POSTGRES_PASSWORD: devpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
