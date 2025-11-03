@@ -1,17 +1,107 @@
-# backend/Dockerfile
-FROM python:3.12-slim
+# Backend Dockerfile (backend/Dockerfile)
 
+# Base stage for shared dependencies
+FROM python:3.12-slim as base
+
+# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    PYTHONHASHSEED=random \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    PIP_DEFAULT_TIMEOUT=100
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y build-essential && rm -rf /var/lib/apt/lists/*
+# Development stage
+FROM base as development
 
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install development dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
 
+# Copy and install Python dependencies
+COPY requirements.txt requirements-dev.txt* ./
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+
+# Copy application code
 COPY . .
 
+# Create necessary directories
+RUN mkdir -p staticfiles media logs
+
+# Create non-root user
+RUN useradd -m -u 1000 django && \
+    chown -R django:django /app
+
+USER django
+
 EXPOSE 8000
+
+# Development server
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
+# Production builder stage
+FROM base as builder
+
+# Install Python dependencies
+COPY requirements.txt ./
+RUN pip install --upgrade pip && \
+    pip wheel --no-cache-dir --no-deps --wheel-dir /app/wheels -r requirements.txt
+
+# Production stage
+FROM python:3.12-slim as production
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONHASHSEED=random \
+    DJANGO_SETTINGS_MODULE=backend_config.settings
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -m -u 1000 django
+
+WORKDIR /app
+
+# Copy wheels and install
+COPY --from=builder /app/wheels /wheels
+RUN pip install --upgrade pip && \
+    pip install --no-cache /wheels/*
+
+# Copy application code
+COPY --chown=django:django . .
+
+# Create necessary directories
+RUN mkdir -p staticfiles media logs && \
+    chown -R django:django /app
+
+USER django
+
+# Collect static files
+RUN python manage.py collectstatic --noinput || true
+
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health/ || exit 1
+
+# Production server using gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "--threads", "2", "--worker-class", "gthread", "--worker-tmp-dir", "/dev/shm", "--access-logfile", "-", "--error-logfile", "-", "backend_config.wsgi:application"]
