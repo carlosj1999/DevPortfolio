@@ -5,23 +5,23 @@ export function About() {
   const highlights = [
     {
       icon: Code2,
-      title: 'Frontend Development',
-      description: 'Expert in React, Vue, and modern JavaScript frameworks'
+      title: 'Full Stack Engineering',
+      description: 'Crafting polished user experiences in React and Angular backed by robust Python APIs'
     },
     {
       icon: Database,
-      title: 'Backend Development',
-      description: 'Proficient in Node.js, Python, and database design'
+      title: 'Data & Performance',
+      description: 'Designing relational models, tuning queries, and shipping reliable background jobs'
     },
     {
       icon: Cloud,
-      title: 'Cloud & DevOps',
-      description: 'Experience with AWS, Docker, and CI/CD pipelines'
+      title: 'Cloud Deployments',
+      description: 'Automating delivery across Azure, AWS, and Dockerized environments with CI/CD best practices'
     },
     {
       icon: Smartphone,
-      title: 'Mobile Development',
-      description: 'Building responsive and native mobile applications'
+      title: 'Operational Excellence',
+      description: 'Driving cross-team collaboration, observability, and resilient systems in fast-paced sprints'
     }
   ];
 
@@ -32,12 +32,13 @@ export function About() {
         
         <div className="max-w-3xl mx-auto mb-12">
           <p className="text-gray-300 text-center mb-6">
-            I'm a passionate full-stack developer with over 5 years of experience building web applications.
-            I love turning complex problems into simple, beautiful, and intuitive solutions.
+            I'm a full-stack software developer and certified cloud practitioner with experience building
+            scalable products for startups, agencies, and university teams. I enjoy translating business needs
+            into resilient platforms that are maintainable and easy to use.
           </p>
           <p className="text-gray-300 text-center">
-            When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects,
-            or sharing my knowledge through technical writing and mentoring.
+            From architecting Django backends and data pipelines to deploying containerized solutions with
+            CI/CD, I focus on end-to-end quality, collaboration, and measurable impact.
           </p>
         </div>
 

@@ -4,25 +4,29 @@ import { Card } from './ui/card';
 export function Education() {
   const education = [
     {
-      degree: 'Master of Science in Computer Science',
-      school: 'Stanford University',
-      location: 'Stanford, CA',
-      period: '2018 - 2020',
-      description: 'Specialized in Distributed Systems and Machine Learning. GPA: 3.9/4.0',
+      degree: "Bachelor of Science in Computer Science",
+      school: "Florida International University",
+      location: "Miami, FL",
+      period: "Jul 2022 - Jul 2024",
+      description:
+        "Graduated Cum Laude with a 3.64 GPA while completing advanced coursework in algorithms, AI, and software engineering.",
       achievements: [
-        'Published research paper on microservices architecture',
-        'Teaching Assistant for Advanced Algorithms course'
+        "Honors: Cum Laude distinction",
+        "Team project: built a campus presence verification app for physical class check-ins",
+        "Focused studies in Data Structures, Logic for CS, and Algorithm Design"
       ]
     },
     {
-      degree: 'Bachelor of Science in Software Engineering',
-      school: 'University of California, Berkeley',
-      location: 'Berkeley, CA',
-      period: '2014 - 2018',
-      description: 'Focus on Web Development and Software Architecture. GPA: 3.8/4.0',
+      degree: "Junior Cloud Practitioner Program",
+      school: "Generation USA",
+      location: "Miami, FL",
+      period: "Nov 2020 - Mar 2021",
+      description:
+        "Immersive training covering Linux administration, Python, Terraform, DevOps fundamentals, and AWS cloud services.",
       achievements: [
-        'Dean\'s List all semesters',
-        'Led development team for senior capstone project'
+        "Capstone: deployed a scalable web application on AWS using Terraform and Docker",
+        "Hands-on experience with automation, monitoring, and cloud-first delivery",
+        "Collaborated with cross-functional cohorts to ship production-ready solutions"
       ]
     }
   ];

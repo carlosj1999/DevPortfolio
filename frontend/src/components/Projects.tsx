@@ -6,94 +6,64 @@ import { Button } from './ui/button';
 export function Projects() {
   const projects = [
     {
-      title: 'E-Commerce Platform',
-      description: 'A full-featured e-commerce platform with real-time inventory management, payment processing, and admin dashboard. Built with modern technologies for scalability and performance.',
-      image: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=800',
-      technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'AWS S3', 'Redis'],
+      title: 'Yunior Ink — Tattoo Portfolio & Booking',
+      description:
+        'Responsive portfolio and booking experience for a tattoo studio with SEO-friendly galleries, lead capture, and an internal CMS for content updates.',
+      image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800',
+      technologies: ['Python', 'Django', 'PostgreSQL', 'Docker', 'Tailwind CSS', 'Azure'],
       features: [
-        'Real-time inventory updates',
-        'Secure payment processing',
-        'Advanced product filtering',
-        'Responsive admin dashboard'
+        'Custom CMS for uploading, tagging, and organizing multi-format galleries',
+        'Booking and reservation workflows with validation, notifications, and lead tracking',
+        'Cloud-deployed infrastructure with HTTPS, logging, and observability'
       ],
-      github: 'https://github.com',
-      demo: 'https://example.com',
-      stars: 245
+      github: 'https://github.com/carlosj1999',
+      demo: 'http://yunior.ink/',
+      stars: 120
     },
     {
-      title: 'Task Management App',
-      description: 'A collaborative task management application with real-time updates, team workspaces, and advanced project tracking features. Supports drag-and-drop functionality and integrations.',
-      image: 'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800',
-      technologies: ['Vue.js', 'Express', 'PostgreSQL', 'Socket.io', 'Docker'],
+      title: 'URL Shortener Platform',
+      description:
+        'Secure URL management platform that lets users shorten, share, and monitor their links with built-in account management.',
+      image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800',
+      technologies: ['Python', 'Django', 'SQLite', 'Bootstrap', 'HTML', 'CSS'],
       features: [
-        'Real-time collaboration',
-        'Drag-and-drop task boards',
-        'Team workspaces',
-        'Calendar integration'
+        'User authentication for personal link dashboards and analytics',
+        'URL validation and formatting checks prior to shortening',
+        'Simple sharing flows with copy-ready short links'
       ],
-      github: 'https://github.com',
-      demo: 'https://example.com',
-      stars: 189
+      github: 'https://github.com/carlosj1999/url_shortener',
+      demo: 'https://github.com/carlosj1999/url_shortener',
+      stars: 85
     },
     {
-      title: 'AI Content Generator',
-      description: 'An AI-powered content generation tool that helps marketers and writers create high-quality content. Features customizable templates and multi-language support.',
-      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800',
-      technologies: ['Next.js', 'OpenAI API', 'Tailwind CSS', 'Supabase'],
+      title: 'PrivNote — Encrypted Notes',
+      description:
+        'End-to-end encrypted note application that supports expiring, one-time view links for sensitive communication.',
+      image: 'https://images.unsplash.com/photo-1521790797524-b2497295b8a0?w=800',
+      technologies: ['Python', 'Django', 'DigitalOcean', 'Ubuntu', 'AlmaLinux', 'CSS'],
       features: [
-        'AI-powered content creation',
-        'Multiple content templates',
-        'Multi-language support',
-        'Export in various formats'
+        'Self-destructing notes with configurable expiration policies',
+        'One-time access links to ensure confidentiality for recipients',
+        'Hardened deployment with Linux administration best practices'
       ],
-      github: 'https://github.com',
-      demo: 'https://example.com',
-      stars: 412
+      github: 'https://github.com/carlosj1999/privnote',
+      demo: 'https://github.com/carlosj1999/privnote',
+      stars: 96
     },
     {
-      title: 'Analytics Dashboard',
-      description: 'A comprehensive analytics dashboard for monitoring application metrics, user behavior, and business KPIs. Features interactive charts and real-time data visualization.',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800',
-      technologies: ['React', 'D3.js', 'Python', 'FastAPI', 'PostgreSQL'],
+      title: 'IPAggregator — Network Management',
+      description:
+        'Operational dashboard for aggregating and tracking IP address allocations across enterprise environments.',
+      image: 'https://images.unsplash.com/photo-1517433456452-f9633a875f6f?w=800',
+      technologies: ['Python', 'Django', 'PostgreSQL', 'DigitalOcean', 'Tailwind CSS'],
       features: [
-        'Real-time data visualization',
-        'Customizable widgets',
-        'Export reports to PDF',
-        'Advanced filtering options'
+        'Aggregated IP inventory with search and filtering across subnets',
+        'Real-time tracking views to monitor allocation and usage trends',
+        'Administrative tooling for streamlined updates and audits'
       ],
-      github: 'https://github.com',
-      demo: 'https://example.com',
-      stars: 328
-    },
-    {
-      title: 'Social Media Scheduler',
-      description: 'A multi-platform social media scheduling tool that helps manage and automate posts across different social networks. Includes analytics and engagement tracking.',
-      image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800',
-      technologies: ['React Native', 'Firebase', 'Node.js', 'Twitter API', 'Instagram API'],
-      features: [
-        'Multi-platform posting',
-        'Schedule and automation',
-        'Analytics and insights',
-        'Content calendar view'
-      ],
-      github: 'https://github.com',
-      demo: 'https://example.com',
-      stars: 156
-    },
-    {
-      title: 'Video Streaming Platform',
-      description: 'A Netflix-like video streaming platform with adaptive streaming, user profiles, and recommendation engine. Built for high performance and scalability.',
-      image: 'https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800',
-      technologies: ['React', 'AWS', 'HLS', 'DynamoDB', 'Lambda', 'CloudFront'],
-      features: [
-        'Adaptive bitrate streaming',
-        'User profiles and watchlists',
-        'Content recommendation engine',
-        'Offline download support'
-      ],
-      github: 'https://github.com',
-      demo: 'https://example.com',
-      stars: 567
+      github: 'https://github.com/carlosj1999/ipaggregator',
+      demo: 'https://github.com/carlosj1999/ipaggregator',
+      stars: 78
     }
   ];
 

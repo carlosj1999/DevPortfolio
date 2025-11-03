@@ -5,46 +5,77 @@ import { Badge } from './ui/badge';
 export function Experience() {
   const experiences = [
     {
-      title: 'Senior Full Stack Developer',
-      company: 'Tech Innovations Inc.',
-      location: 'San Francisco, CA',
-      period: '2022 - Present',
-      description: 'Leading development of cloud-based SaaS platform serving 100K+ users.',
-      responsibilities: [
-        'Architected and implemented microservices infrastructure using Node.js and Docker',
-        'Led team of 5 developers, conducting code reviews and mentoring junior developers',
-        'Improved application performance by 40% through optimization and caching strategies',
-        'Implemented CI/CD pipelines reducing deployment time by 60%'
-      ],
-      technologies: ['React', 'Node.js', 'PostgreSQL', 'AWS', 'Docker', 'Kubernetes']
-    },
-    {
       title: 'Full Stack Developer',
-      company: 'Digital Solutions Corp.',
-      location: 'Los Angeles, CA',
-      period: '2020 - 2022',
-      description: 'Developed and maintained multiple client-facing web applications.',
+      company: 'Oliphant USA',
+      location: 'Miami, FL',
+      period: 'Jan 2025 - Oct 2025',
+      description:
+        'Delivered end-to-end web applications with scalable Python backends, modern front-end experiences, and production-ready DevOps pipelines.',
       responsibilities: [
-        'Built responsive web applications using React and Vue.js',
-        'Designed and implemented RESTful APIs with Express.js and MongoDB',
-        'Collaborated with UX designers to implement pixel-perfect designs',
-        'Reduced page load times by 50% through code splitting and lazy loading'
+        'Designed REST and GraphQL APIs in Django and Flask with robust authentication and documentation',
+        'Modeled relational data in PostgreSQL/MySQL, optimized queries, and introduced Redis caching + queues',
+        'Implemented Celery-powered background jobs to offload intensive workloads and improve response times',
+        'Shipped feature-rich React and Angular interfaces to maintain parity between API capabilities and UI flows',
+        'Containerized services with Docker/Docker Compose and automated CI/CD for testing, linting, and deployments',
+        'Configured Azure infrastructure—secrets, monitoring, logging, and health checks—to support resilient releases'
       ],
-      technologies: ['Vue.js', 'React', 'Express', 'MongoDB', 'Redis', 'GraphQL']
+      technologies: [
+        'Python',
+        'Django',
+        'Flask',
+        'React',
+        'Angular',
+        'PostgreSQL',
+        'MySQL',
+        'Redis',
+        'Celery',
+        'Docker',
+        'Azure',
+        'CI/CD'
+      ]
     },
     {
-      title: 'Junior Software Developer',
-      company: 'StartUp Ventures',
-      location: 'San Jose, CA',
-      period: '2018 - 2020',
-      description: 'Contributed to the development of e-commerce platform and mobile applications.',
+      title: 'Python Developer',
+      company: 'TrueIT LLC',
+      location: 'Miami, FL',
+      period: 'Feb 2022 - Jan 2025',
+      description:
+        'Engineered automation and integration solutions across AWS-backed environments while maintaining high availability systems.',
       responsibilities: [
-        'Developed new features for e-commerce platform using React and Django',
-        'Implemented payment integration with Stripe and PayPal',
-        'Wrote unit and integration tests achieving 85% code coverage',
-        'Participated in agile development process and sprint planning'
+        'Leveraged open-source Python frameworks to streamline internal tooling and client deliverables',
+        'Integrated AWS services into development workflows, improving observability and deployment speed',
+        'Administered Linux servers, automated deployments, and resolved networking issues to cut downtime by 20%',
+        'Collaborated with stakeholders to prioritize features, triage incidents, and deliver timely hotfixes'
       ],
-      technologies: ['React', 'Django', 'Python', 'MySQL', 'Jest', 'Git']
+      technologies: ['Python', 'Django', 'AWS', 'Linux', 'Docker', 'Git']
+    },
+    {
+      title: 'Life and Safety Mechanic II',
+      company: 'Florida International University',
+      location: 'Miami, FL',
+      period: 'Oct 2021 - Dec 2024',
+      description:
+        'Supported university research facilities by maintaining critical life safety systems and coordinating technical interventions.',
+      responsibilities: [
+        'Diagnosed and repaired safety equipment ensuring compliance with rigorous operational standards',
+        'Partnered with cross-functional teams to safeguard uptime for research activities and campus operations',
+        'Documented procedures and preventative maintenance plans to enhance reliability and knowledge transfer'
+      ],
+      technologies: ['Problem Solving', 'Teamwork', 'Process Improvement']
+    },
+    {
+      title: 'Data Engineering & Analytics Intern',
+      company: 'Belle Fleur Technologies',
+      location: 'Miami, FL',
+      period: 'Apr 2021 - Aug 2021',
+      description:
+        'Supported data teams with cloud-enabled analytics, reporting automation, and database administration.',
+      responsibilities: [
+        'Developed and managed MySQL schemas to streamline ingestion, storage, and retrieval workflows',
+        'Built dashboards in AWS QuickSight, reducing stakeholder reporting time by 30%',
+        'Partnered with analysts to uncover data patterns and deliver actionable insights for customers'
+      ],
+      technologies: ['AWS QuickSight', 'MySQL', 'Data Analysis', 'Python']
     }
   ];
 

@@ -36,8 +36,8 @@ export function Contact() {
                 <Mail className="h-6 w-6 text-blue-400 mr-4 mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="text-white mb-1">Email</h3>
-                  <a href="mailto:john.doe@example.com" className="text-gray-400 hover:text-blue-400 transition-colors">
-                    john.doe@example.com
+                  <a href="mailto:cjibanez1999@gmail.com" className="text-gray-400 hover:text-blue-400 transition-colors">
+                    cjibanez1999@gmail.com
                   </a>
                 </div>
               </div>
@@ -48,8 +48,8 @@ export function Contact() {
                 <Phone className="h-6 w-6 text-blue-400 mr-4 mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="text-white mb-1">Phone</h3>
-                  <a href="tel:+1234567890" className="text-gray-400 hover:text-blue-400 transition-colors">
-                    +1 (234) 567-890
+                  <a href="tel:+17865375524" className="text-gray-400 hover:text-blue-400 transition-colors">
+                    +1 (786) 537-5524
                   </a>
                 </div>
               </div>
@@ -60,7 +60,7 @@ export function Contact() {
                 <MapPin className="h-6 w-6 text-blue-400 mr-4 mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="text-white mb-1">Location</h3>
-                  <p className="text-gray-400">San Francisco, CA, USA</p>
+                  <p className="text-gray-400">Miami, FL, USA</p>
                 </div>
               </div>
             </Card>
