@@ -11,18 +11,14 @@ export function Hero() {
       <div className="absolute -top-32 right-16 h-64 w-64 rounded-full bg-purple-500/30 blur-3xl" />
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div className="mb-8">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-sm text-blue-200 backdrop-blur">
-            Crafting immersive digital experiences
-          </span>
           <h1 className="mt-6 text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white font-semibold tracking-tight">
-            John Doe
+            Carlos Ibanez
           </h1>
           <p className="mt-4 text-xl sm:text-2xl md:text-3xl text-blue-300">
-            Full Stack Developer
+            Full Stack Software Developer
           </p>
           <p className="mt-6 text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">
             Passionate about building scalable web applications with modern technologies.
-            Specialized in React, Node.js, and cloud architecture.
           </p>
         </div>
 
@@ -42,7 +38,7 @@ export function Hero() {
 
         <div className="flex gap-6 justify-center text-gray-400">
           <a
-            href="https://github.com"
+            href="https://github.com/carlosj1999"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white transition-colors"
@@ -50,14 +46,14 @@ export function Hero() {
             <Github className="h-6 w-6" aria-hidden="true" />
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://linkedin.com/in/carlos-ibanez99"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white transition-colors"
           >
             <Linkedin className="h-6 w-6" aria-hidden="true" />
           </a>
-          <a href="mailto:john@example.com" className="hover:text-white transition-colors">
+          <a href="mailto:cjibanez1999@gmail.com" className="hover:text-white transition-colors">
             <Mail className="h-6 w-6" aria-hidden="true" />
           </a>
         </div>
