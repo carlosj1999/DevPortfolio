@@ -15,24 +15,30 @@ export function Hero() {
             Carlos Ibanez
           </h1>
           <p className="mt-4 text-xl sm:text-2xl md:text-3xl text-blue-300">
-            Full Stack Software Developer
+            Full Stack Developer · Cloud Practitioner · Problem Solver
           </p>
           <p className="mt-6 text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">
-            Passionate about building scalable web applications with modern technologies.
+            Miami-based engineer crafting performant web applications, resilient APIs, and cloud-native
+            infrastructure with Python, Django, Flask, and modern JavaScript frameworks.
           </p>
         </div>
 
         <div className="flex flex-wrap gap-4 justify-center mb-12">
-          <Button className="bg-blue-600 hover:bg-blue-500 shadow-glow shadow-blue-500/40">
-            <Mail className="mr-2 h-4 w-4" />
-            Contact Me
+          <Button className="bg-blue-600 hover:bg-blue-500 shadow-glow shadow-blue-500/40" asChild>
+            <a href="#contact">
+              <Mail className="mr-2 h-4 w-4" />
+              Contact Me
+            </a>
           </Button>
           <Button
             variant="outline"
             className="!text-white !border-white/60 hover:!bg-white/10 hover:!border-white hover:!text-white text-[14px]"
+            asChild
           >
-            <Download className="mr-2 h-4 w-4" />
-            Download CV
+            <a href="https://github.com/carlosj1999" target="_blank" rel="noopener noreferrer">
+              <Download className="mr-2 h-4 w-4" />
+              View Resume
+            </a>
           </Button>
         </div>
 

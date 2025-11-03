@@ -4,20 +4,20 @@ import { Badge } from './ui/badge';
 export function Skills() {
   const skillCategories = [
     {
-      category: 'Frontend',
-      skills: ['React', 'Vue.js', 'Next.js', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'HTML5', 'CSS3', 'Redux', 'Zustand']
+      category: 'Languages & Frameworks',
+      skills: ['Python', 'Java', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Django', 'Flask', 'React', 'Angular']
     },
     {
-      category: 'Backend',
-      skills: ['Node.js', 'Express', 'Python', 'Django', 'FastAPI', 'PostgreSQL', 'MongoDB', 'Redis', 'GraphQL', 'REST APIs']
+      category: 'Web & Data Engineering',
+      skills: ['REST APIs', 'GraphQL', 'PostgreSQL', 'MySQL', 'Redis', 'Celery', 'Docker Compose', 'Unit & Integration Testing']
     },
     {
-      category: 'DevOps & Cloud',
-      skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'GitHub Actions', 'Terraform', 'Nginx', 'Linux']
+      category: 'Cloud & Infrastructure',
+      skills: ['AWS (EC2, S3, Lambda, RDS, QuickSight)', 'Microsoft Azure', 'DigitalOcean', 'Terraform', 'Nginx', 'Linux (Ubuntu, CentOS, AlmaLinux)', 'Windows Server']
     },
     {
-      category: 'Tools & Others',
-      skills: ['Git', 'Webpack', 'Vite', 'Jest', 'Cypress', 'Figma', 'Postman', 'Jira', 'Agile/Scrum']
+      category: 'Collaboration & Tooling',
+      skills: ['Git', 'GitHub', 'Bitbucket', 'CI/CD Pipelines', 'Docker', 'Agile & Scrum', 'Monitoring & Logging', 'Problem Solving', 'Team Leadership']
     }
   ];
 

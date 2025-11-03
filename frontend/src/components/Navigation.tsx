@@ -29,8 +29,8 @@ export function Navigation() {
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="text-white">
-            <span className="text-xl">JD</span>
+          <div className="text-white font-semibold tracking-wide">
+            <span className="text-xl">Carlos Ibanez</span>
           </div>
           
           {/* Desktop Menu */}
