@@ -1,12 +1,14 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import ShortenedURL
 from django.contrib import messages
-import requests
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import CustomSignupForm
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+from urllib.parse import urlparse
 
 
 def shorten_url(request):
@@ -14,29 +16,59 @@ def shorten_url(request):
         original_url = request.POST.get('url')
 
         # Verify if the provided URL is real and accessible
-        try:
-            response = requests.get(original_url, timeout=5)  # after 5 seconds
-            if response.status_code == 200:
-                # URL is valid, proceed to create a shortened URL
-                
-                # Check if the user is authenticated
-                if request.user.is_authenticated:
-                    new_short_url = ShortenedURL.objects.create(original_url=original_url, created_by=request.user)
-                else:
-                    new_short_url = ShortenedURL.objects.create(original_url=original_url)  # No created_by if user is anonymous
-                
-                shortened_url = request.build_absolute_uri(f'/shortener/{new_short_url.short_code}')
-                return render(request, 'shortener/index.html', {'shortened_url': shortened_url})
+        is_valid, error_message = _is_url_accessible(original_url)
+
+        if is_valid:
+            # URL is valid, proceed to create a shortened URL
+
+            # Check if the user is authenticated
+            if request.user.is_authenticated:
+                new_short_url = ShortenedURL.objects.create(original_url=original_url, created_by=request.user)
 
             else:
-                # URL returned a non-success status code
-                messages.error(request, f'The provided URL is not accessible (Status Code: {response.status_code}).')
+                new_short_url = ShortenedURL.objects.create(original_url=original_url)  # No created_by if user is anonymous
 
-        except requests.exceptions.RequestException:
-            # Handle any request exceptions (e.g., invalid URL, no connection)
-            messages.error(request, 'The provided URL is invalid or cannot be reached.')
+            shortened_url = request.build_absolute_uri(f'/shortener/{new_short_url.short_code}')
+            return render(request, 'shortener/index.html', {'shortened_url': shortened_url})
+        
+        if error_message:
+            messages.error(request, error_message)
 
     return render(request, 'shortener/index.html')
+
+def _is_url_accessible(url):
+    """Return a tuple of (is_valid, error_message)."""
+    if not url:
+        return False, 'Please provide a URL to shorten.'
+
+    parsed_url = urlparse(url)
+    if parsed_url.scheme not in {'http', 'https'}:
+        return False, 'Please provide a valid HTTP or HTTPS URL.'
+
+    request = Request(url, method='HEAD')
+
+    try:
+        with urlopen(request, timeout=5) as response:
+            if 200 <= response.status < 400:
+                return True, None
+            return False, f'The provided URL is not accessible (Status Code: {response.status}).'
+    except HTTPError as exc:
+        # Received a valid response with an HTTP error status code
+        return False, f'The provided URL is not accessible (Status Code: {exc.code}).'
+    except URLError:
+        # DNS errors, refused connections, etc.
+        pass
+
+    # Some servers might not allow HEAD requests; fall back to GET
+    get_request = Request(url)
+    try:
+        with urlopen(get_request, timeout=5) as response:
+            if 200 <= response.status < 400:
+                return True, None
+            return False, f'The provided URL is not accessible (Status Code: {response.status}).'
+    except (HTTPError, URLError):
+        return False, 'The provided URL is invalid or cannot be reached.'
+
 
 def signup(request):
     if request.method == 'POST':
