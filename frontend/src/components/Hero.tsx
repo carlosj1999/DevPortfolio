@@ -43,7 +43,7 @@ export function Hero() {
             "
             asChild
           >
-            <a href="https://github.com/carlosj1999" target="_blank" rel="noopener noreferrer">
+            <a href="https://docs.google.com/document/d/1F4YGXp6yZ3dmEHLujkwrZHrzlRLzLqfB7owMsMH5wrw/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
               <Download className="mr-2 h-4 w-4" />
               View Resume
             </a>
