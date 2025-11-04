@@ -36,6 +36,9 @@ if not ALLOWED_HOSTS:
         "DJANGO_ALLOWED_HOSTS must be set when DEBUG is False."
     )
     
+if DEBUG and "*" not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append("*")
+    
 # Application definition
 
 INSTALLED_APPS = [
