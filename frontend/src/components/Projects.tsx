@@ -3,8 +3,40 @@ import { Card } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
 
+type Project = {
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  features: string[];
+  github?: string;
+  demo?: string;
+  demoPath?: string;
+  stars: number;
+};
+
+const computeBackendUrl = (path: string) => {
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const explicitOrigin = import.meta.env.VITE_BACKEND_ORIGIN;
+
+  if (explicitOrigin) {
+    return new URL(normalizedPath, explicitOrigin).toString();
+  }
+
+  if (typeof window !== 'undefined') {
+    const { protocol, hostname, port } = window.location;
+    const devPorts = new Set(['3000', '5173', '4173']);
+    const targetPort = port && devPorts.has(port) ? '8000' : port;
+    const baseOrigin = `${protocol}//${hostname}${targetPort ? `:${targetPort}` : ''}`;
+
+    return new URL(normalizedPath, baseOrigin).toString();
+  }
+
+  return normalizedPath;
+};
+
 export function Projects() {
-  const projects = [
+  const projects: Project[] = [
     {
       title: 'Yunior Ink — Tattoo Portfolio & Booking',
       description:
@@ -32,7 +64,7 @@ export function Projects() {
         'Simple sharing flows with copy-ready short links'
       ],
       github: 'https://github.com/carlosj1999/url_shortener',
-      demo: 'https://github.com/carlosj1999/url_shortener',
+      demoPath: '/shortener/',
       stars: 85
     },
     {
@@ -47,7 +79,7 @@ export function Projects() {
         'Hardened deployment with Linux administration best practices'
       ],
       github: 'https://github.com/carlosj1999/privnote',
-      demo: 'https://github.com/carlosj1999/privnote',
+      demoPath: '/privnote/',
       stars: 96
     },
     {
@@ -62,7 +94,7 @@ export function Projects() {
         'Administrative tooling for streamlined updates and audits'
       ],
       github: 'https://github.com/carlosj1999/ipaggregator',
-      demo: 'https://github.com/carlosj1999/ipaggregator',
+      demoPath: '/ip_aggregator/',
       stars: 78
     }
   ];
@@ -76,12 +108,15 @@ export function Projects() {
         </p>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <Card key={index} className="bg-gray-900 border-gray-700 overflow-hidden hover:border-blue-500 transition-colors group">
-              <div className="relative h-48 overflow-hidden">
-                <img 
-                  src={project.image} 
-                  alt={project.title}
+          {projects.map((project, index) => {
+            const demoUrl = project.demoPath ? computeBackendUrl(project.demoPath) : project.demo;
+
+            return (
+              <Card key={index} className="bg-gray-900 border-gray-700 overflow-hidden hover:border-blue-500 transition-colors group">
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={project.image}
+                    alt={project.title}
                   className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="absolute top-4 right-4 bg-gray-900/90 px-3 py-1 rounded-full flex items-center">
@@ -120,9 +155,9 @@ export function Projects() {
                 </div>
                 
                 <div className="flex gap-3">
-                  <Button 
-                    size="sm" 
-                    variant="outline" 
+                  <Button
+                    size="sm"
+                    variant="outline"
                     className="flex-1 border-gray-700 text-gray-300 hover:bg-gray-800"
                     asChild
                   >
@@ -131,12 +166,16 @@ export function Projects() {
                       Code
                     </a>
                   </Button>
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     className="flex-1 bg-blue-600 hover:bg-blue-700"
                     asChild
                   >
-                    <a href={project.demo} target="_blank" rel="noopener noreferrer">
+                    <a
+                      href={demoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
                       <ExternalLink className="h-4 w-4 mr-2" />
                       Demo
                     </a>
@@ -144,7 +183,8 @@ export function Projects() {
                 </div>
               </div>
             </Card>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
