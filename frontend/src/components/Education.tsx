@@ -4,7 +4,7 @@ import { Card } from './ui/card';
 export function Education() {
   const education = [
     {
-      degree: "Bachelor of Science in Computer Science",
+      degree: "Bachelor in Computer Science",
       school: "Florida International University",
       location: "Miami, FL",
       period: "Jul 2022 - Jul 2024",
@@ -16,6 +16,21 @@ export function Education() {
         "Focused studies in Data Structures, Logic for CS, and Algorithm Design"
       ]
     },
+
+    {
+      degree: "Associate in Arts, Computer Science Pathway",
+      school: "Miami Dade College",
+      location: "Miami, FL",
+      period: "Sep 2019 - Aug 2022",
+      description:
+        "Completed foundational coursework in programming, mathematics, and computer systems while preparing to transfer into FIU’s Computer Science program. Maintained a 3.8 GPA while working and studying full-time.",
+      achievements: [
+        "GPA: 3.8 with consistent Dean’s List recognition",
+        "Built several small full-stack projects as part of coursework (JavaScript, Python, and basic databases)",
+        "Developed strong fundamentals in problem solving, logic, and object-oriented programming through labs and team assignments"
+      ]
+    },
+
     {
       degree: "Junior Cloud Practitioner Program",
       school: "Generation USA",

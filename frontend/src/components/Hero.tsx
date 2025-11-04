@@ -32,7 +32,15 @@ export function Hero() {
           </Button>
           <Button
             variant="outline"
-            className="!text-white !border-white/60 hover:!bg-white/10 hover:!border-white hover:!text-white text-[14px]"
+            className="
+              !bg-transparent 
+              !text-white 
+              !border-white/70 
+              hover:!bg-white/10 
+              hover:!border-white 
+              hover:!text-white 
+              text-[14px]
+            "
             asChild
           >
             <a href="https://github.com/carlosj1999" target="_blank" rel="noopener noreferrer">
@@ -40,6 +48,7 @@ export function Hero() {
               View Resume
             </a>
           </Button>
+
         </div>
 
         <div className="flex gap-6 justify-center text-gray-400">
