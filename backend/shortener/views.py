@@ -51,6 +51,7 @@ def signup(request):
 
     return render(request, 'registration/signup.html', {'form': form})  # Always return a response
 
+@login_required
 def user_links(request):
     # Handle deleting all links
     if 'delete_all' in request.POST:

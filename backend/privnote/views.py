@@ -1,10 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
-from .models import Note
-from .forms import NoteForm
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.views.decorators.cache import never_cache
-from django.urls import reverse_lazy
+
+from .forms import NoteForm
+from .models import Note
 
 def create_note_view(request):
     if request.method == 'POST':
@@ -15,15 +14,12 @@ def create_note_view(request):
             if duration:
                 duration = int(duration)
                 note.expires_at = timezone.now() + timezone.timedelta(minutes=duration)
-                note.one_time_view = form.cleaned_data['one_time_view'] #dont know 
+                note.one_time_view = form.cleaned_data['one_time_view']
             note.save()
             return redirect('privnote:note_created', unique_link=note.unique_link)
     else:
         form = NoteForm()
     return render(request, 'privnote/create_note.html', {'form': form})
-
-    
-
 def note_created_view(request, unique_link):
     return render(request, 'privnote/note_created.html', {'unique_link': unique_link})
 
@@ -38,8 +34,6 @@ def view_note_view(request, unique_link):
     # Render the note content
     response = render(request, 'privnote/view_note.html', {'note': note})
 
-
-    
     note.mark_as_viewed()
 
     # Add cache control headers
