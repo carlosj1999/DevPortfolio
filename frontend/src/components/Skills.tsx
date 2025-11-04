@@ -63,7 +63,7 @@ export function Skills() {
     },
     {
       title: 'Python Programming Certificate',
-      issuer: 'Cisco Networking Academy',
+      issuer: 'Python Institute',
       image: PythonCertificate
     }
   ];
