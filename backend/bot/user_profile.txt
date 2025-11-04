@@ -1,0 +1,115 @@
+NAME
+Carlos Ibanez
+
+CONTACT
+Email: cjibanez1999@gmail.com
+Phone: +1 (786) 537-5524
+LinkedIn: https://linkedin.com/in/carlos-ibanez99
+GitHub: https://github.com/carlosj1999
+
+SKILLS
+Programming Languages: Python, Java
+Web Development: HTML, CSS, Django, Flask
+Cloud Platforms: AWS (EC2, S3, Lambda, RDS, QuickSight), Microsoft Azure, DigitalOcean
+Databases: MySQL, PostgreSQL
+Operating Systems: Linux (Ubuntu, CentOS, Alma9), Windows Server
+Version Control: GitHub, Bitbucket
+
+EDUCATION
+Florida International University, Miami, FL
+Bachelor’s in Computer Science, Jul 2022 - Jul 2024 (Graduated Jul 2024)
+GPA: 3.64/4.0, Honors: Cum Laude
+Relevant Coursework: Data Structures, Logics for CS, Algorithms, AI, Software Engineering
+Team Project: Developed an app to verify student presence on campus for physical class check-ins.
+
+Miami Dade College, Miami, FL
+Associate's in Computer Science, Sep 2019 - Aug 2022
+GPA: 3.8/4.0, Honors: Cum Laude
+Completed foundational coursework in programming, mathematics, and computer systems while preparing 
+to transfer into FIU’s Computer Science program. Maintained a 3.8 GPA while working and studying full-time.
+
+Generation USA, Miami, FL
+Program: Jr. Cloud Practitioner, Nov 2020 - Mar 2021
+Coursework: Linux, Python Programming, Terraform, DevOps Principles, AWS
+Capstone Project: Deployed a scalable web application on AWS using Terraform and Docker.
+
+WORK EXPERIENCE
+Full Stack Developer, Oliphant USA, Miami, FL
+Jan 2025 - Oct 2025
+- Built and maintained end-to-end web apps with a focus on scalable backends and clean APIs.
+- Designed REST/JSON APIs in Python (Django/Flask).
+- Modeled data and optimized queries in PostgreSQL/MySQL; added Redis caching and queues.
+- Implemented background jobs with Celery and worker queues.
+- Shipped front-end features in React and Angular to ensure API-UI parity.
+- Containerized services with Docker and orchestrated environments via Docker Compose.
+- Set up CI/CD pipelines for linting, tests, builds, and automated deployments.
+- Deployed to Microsoft Azure; configured secrets, logging, monitoring, and health checks.
+- Improved performance with query tuning, async tasks, and caching to cut latency and cost.
+- Wrote unit and integration tests and maintained API docs.
+Tech stack: Python, Django, Flask, TypeScript, JavaScript, React, Angular, PostgreSQL, MySQL, Redis, Celery, REST, GraphQL, Docker, Docker Compose, Azure, Nginx, CI/CD, Git, Unix.
+
+Python Developer, TrueIT LLC, Miami, FL
+Feb 2022 - Jan 2025
+- Optimized Python development using open-source frameworks.
+- Integrated AWS services into development workflows.
+- Managed Linux server environments and automated deployments.
+- Resolved networking issues, reducing system downtime to 20%.
+Tech stack: Python, Linux, Networking, AWS, Django, Git, Docker.
+
+Life and Safety Mechanic II, Florida International University, Miami, FL
+Oct 2021 - Dec 2024
+- Maintained and repaired life safety equipment supporting University Research.
+- Collaborated with teams to ensure system reliability and efficiency.
+Skills: Teamwork, problem solving, analytical skills.
+
+Intern – Data Engineering & Data Analytics, Belle Fleur Technologies, Miami, FL
+Apr 2021 - Aug 2021
+- Developed and managed MySQL databases to streamline data storage and retrieval.
+- Analyzed data patterns with AWS QuickSight, reducing reporting time by 30%.
+Tech stack: AWS, QuickSight, MySQL.
+
+PROJECTS
+Build Programs Portfolio – https://carlosjportfolio.com
+Aug 2024 - Present
+Description: Personal portfolio and collection of development projects.
+Technologies: Project management, Python, Django, PostgreSQL, front-end and back-end web development, cloud computing, Docker.
+
+Yunior Ink – Tattoo Portfolio & Booking Platform – http://yunior.ink/
+Sep 2025
+- Built a clean, responsive portfolio with fast-loading galleries and on-page SEO.
+- Developed an admin CMS to upload and organize projects, tag and filter, and manage galleries.
+- Implemented booking and reservation flow with form validation, email notifications, and lead reports.
+- Designed RESTful backend in Django; modeled data in PostgreSQL with proper indexing and migrations.
+- Containerized with Docker and deployed to the cloud; configured env vars, HTTPS, logging, and monitoring.
+- Added baseline security (authentication, input validation).
+Technologies: Python, Django, PostgreSQL, Docker, cloud deployment.
+
+URL_Shortener
+Aug 2024
+- Developed a platform to shorten long URLs and manage links.
+- Implemented user authentication for accounts and URL management.
+- Validated URLs before shortening.
+Technologies: Python, Django, SQLite, HTML, CSS, Bootstrap, GitHub.
+
+PrivNote
+Jul 2024
+- Built a secure, self-destructing note platform with end-to-end encryption.
+- Added customizable expiration and one-time view functionality.
+Technologies: Python, Django, DigitalOcean, Ubuntu, Alma9, CSS, HTML, GitHub.
+
+IPAgregator
+Jul 2024
+- Engineered an IP address management tool using Django.
+- Implemented IP aggregation and real-time tracking.
+- Developed advanced search and filtering for faster data retrieval.
+Technologies: Python, Django, DigitalOcean, Ubuntu, Alma9, CSS, HTML, GitHub.
+
+LANGUAGES
+English: Fluent
+Spanish: Native
+Japanese: Beginner
+
+CERTIFICATIONS
+Microsoft Certified: Azure Fundamentals (H724-0900)
+AWS Certified Cloud Practitioner (EGYL2WDLBB1Q1HKP)
+Certified Associate Python Programmer – PCAP-31-03

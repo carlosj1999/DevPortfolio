@@ -1,0 +1,51 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+      target: production
+      args:
+        BACKEND_DIR: backend
+        FRONTEND_DIR: frontend
+        VITE_BACKEND_ORIGIN: ${VITE_BACKEND_ORIGIN:-https://carlosjportfolio.com}
+    env_file:
+      - .env.production
+    environment:
+      DJANGO_DEBUG: "False"
+      DATABASE_URL: ${DATABASE_URL:-postgresql://${POSTGRES_USER:-portfolio_user}:${POSTGRES_PASSWORD:-portfolio_pass}@db:5432/${POSTGRES_DB:-portfolio_db}}
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "
+        python manage.py migrate &&
+        python manage.py collectstatic --noinput &&
+        gunicorn backend_config.wsgi:application --bind 0.0.0.0:8000
+      "
+    volumes:
+      - backend_static:/app/staticfiles
+      - backend_media:/app/media
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    env_file:
+      - .env.production
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-portfolio_db}
+      POSTGRES_USER: ${POSTGRES_USER:-portfolio_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-portfolio_pass}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-portfolio_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  backend_static:
+  backend_media:
+  postgres_data:

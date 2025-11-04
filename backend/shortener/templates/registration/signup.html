@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Your Account</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles_urlshortener.css' %}">
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J71RQKFK5G"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-J71RQKFK5G');
+    </script>
+
+</head>
+<body>
+    <div class="background">
+        <!-- Cool animated background -->
+    </div>
+
+    <div class="signup-container">
+        <h1 class="signup-title">Create Your Account</h1>
+
+        <!-- Signup Form -->
+        <form method="post" id="signup-form" class="signup-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="signup-button">Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.style.backgroundColor = '#f0f8ff';
+            });
+            input.addEventListener('blur', () => {
+                input.style.backgroundColor = '';
+            });
+        });
+    </script>
+</body>
+</html>
