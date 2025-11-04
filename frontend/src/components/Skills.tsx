@@ -1,10 +1,36 @@
+import { useState } from 'react';
+
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from './ui/dialog';
+import { Button } from './ui/button';
 import AwsCertificate from '../assets/certifications/AWS.png';
 import AzureCertificate from '../assets/certifications/Azure.png';
 import PythonCertificate from '../assets/certifications/python_certificate.png';
 
 export function Skills() {
+  const [selectedCertification, setSelectedCertification] = useState<(typeof certifications)[number] | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleOpenCertification = (certification: (typeof certifications)[number]) => {
+    setSelectedCertification(certification);
+    setIsDialogOpen(true);
+  };
+
+  const handleDialogChange = (open: boolean) => {
+    setIsDialogOpen(open);
+    if (!open) {
+      setSelectedCertification(null);
+    }
+  };
+
   const skillCategories = [
     {
       category: 'Languages & Frameworks',
@@ -74,20 +100,53 @@ export function Skills() {
           <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {certifications.map((certification) => (
               <Card key={certification.title} className="bg-gray-800/80 border-gray-700 p-6 h-full flex flex-col items-center text-center">
-                <div className="w-32 h-32 rounded-xl overflow-hidden bg-gray-900/60 border border-gray-700 shadow-lg">
+                <button
+                  type="button"
+                  onClick={() => handleOpenCertification(certification)}
+                  className="w-32 h-32 rounded-xl overflow-hidden bg-gray-900/60 border border-gray-700 shadow-lg transition ring-offset-2 ring-offset-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+                >
+                  <span className="sr-only">View {certification.title} certificate</span>
                   <img
                     src={certification.image}
                     alt={`${certification.title} certificate`}
                     className="w-full h-full object-contain"
                   />
-                </div>
+                </button>
                 <div className="mt-6">
                   <h4 className="text-lg font-semibold text-white">{certification.title}</h4>
                   <p className="mt-2 text-sm text-gray-400">Issued by {certification.issuer}</p>
+                  <p className="mt-3 text-xs text-gray-500">Click the certificate to view or download.</p>
                 </div>
               </Card>
             ))}
           </div>
+          <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
+            {selectedCertification && (
+              <DialogContent className="bg-gray-900 border border-gray-700 text-white max-w-3xl">
+                <DialogHeader>
+                  <DialogTitle>{selectedCertification.title}</DialogTitle>
+                  <DialogDescription className="text-gray-300">
+                    Issued by {selectedCertification.issuer}. Download the full-size certificate or view it in detail below.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="mt-4 bg-gray-950/70 border border-gray-800 rounded-lg max-h-[70vh] flex items-center justify-center p-4">
+                  <img
+                    src={selectedCertification.image}
+                    alt={`${selectedCertification.title} certificate large view`}
+                    className="max-h-[60vh] w-full object-contain"
+                  />
+                </div>
+                <DialogFooter className="sm:justify-between">
+                  <p className="text-xs text-gray-500">Certificate preview optimized for clarity.</p>
+                  <Button asChild>
+                    <a href={selectedCertification.image} download>
+                      Download certificate
+                    </a>
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            )}
+          </Dialog>
         </div>
       </div>
     </section>
