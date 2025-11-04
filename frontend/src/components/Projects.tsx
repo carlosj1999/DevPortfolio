@@ -17,7 +17,7 @@ export function Projects() {
         'Cloud-deployed infrastructure with HTTPS, logging, and observability'
       ],
       github: 'https://github.com/carlosj1999',
-      demo: 'http://yunior.ink/',
+      demo: 'https://yunior.ink/',
       stars: 120
     },
     {
