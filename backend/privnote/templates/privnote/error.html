@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Not Available</title>
+    <link rel="stylesheet" href="{% static 'css/styles_privnote.css' %}">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J71RQKFK5G"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-J71RQKFK5G');
+</script>
+</head>
+<body>
+    <div class="container">
+        <h1>⚠️ Note Expired</h1>
+        <p class="message">This note is no longer available. It may have expired or been accessed already.</p>
+        <div class="footer">
+            <p><a href="{% url 'privnote:create_note' %}">Create a new note</a> to share securely.</p>
+        </div>
+    </div>
+</body>
+</html>
