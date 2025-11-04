@@ -122,8 +122,11 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [FRONTEND_DIST_DIR] if FRONTEND_DIST_DIR.exists() else []
-
+STATICFILES_DIRS = [
+    path
+    for path in [BASE_DIR / "static", FRONTEND_DIST_DIR]
+    if path.exists()
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
