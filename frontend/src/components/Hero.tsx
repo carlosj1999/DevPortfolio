@@ -15,11 +15,12 @@ export function Hero() {
             Carlos Ibanez
           </h1>
           <p className="mt-4 text-xl sm:text-2xl md:text-3xl text-blue-300">
-            Full Stack Developer · Cloud Practitioner · Problem Solver
+            Full Stack Developer
           </p>
           <p className="mt-6 text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">
-            Miami-based engineer crafting performant web applications, resilient APIs, and cloud-native
-            infrastructure with Python, Django, Flask, and modern JavaScript frameworks.
+            Miami-based engineer crafting performant web applications, resilient APIs, and
+            cloud-native infrastructure with Python, Django, and Flask. Currently focused
+            on improving my AI skills and getting better with JavaScript and TypeScript.
           </p>
         </div>
 
