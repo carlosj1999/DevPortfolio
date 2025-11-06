@@ -15,9 +15,9 @@ type Project = {
   technologies: string[];
   features: string[];
   github?: string;
+  githubPrivate?: boolean; 
   demo?: string;
   demoPath?: string;
-  stars: number;
 };
 
 export function Projects() {
@@ -33,9 +33,8 @@ export function Projects() {
         'Booking and reservation workflows with validation, notifications, and lead tracking',
         'Cloud-deployed infrastructure with HTTPS, logging, and observability'
       ],
-      github: 'https://github.com/carlosj1999',
+      githubPrivate: true, 
       demo: 'https://yunior.ink/',
-      stars: 120
     },
     {
       title: 'URL Shortener Platform',
@@ -48,41 +47,44 @@ export function Projects() {
         'URL validation and formatting checks prior to shortening',
         'Simple sharing flows with copy-ready short links'
       ],
-      github: 'https://github.com/carlosj1999/url_shortener',
+      github: 'https://github.com/carlosj1999/URL-Shortener',
       demoPath: '/shortener/',
-      stars: 85
     },
     {
       title: 'PrivNote — Encrypted Notes',
       description:
         'End-to-end encrypted note application that supports expiring, one-time view links for sensitive communication.',
       image: Privnote,
-      technologies: ['Python', 'Django', 'DigitalOcean', 'Ubuntu', 'AlmaLinux', 'CSS'],
+      technologies: ['Python', 'Django', 'Ubuntu', 'AlmaLinux', 'CSS'],
       features: [
         'Self-destructing notes with configurable expiration policies',
         'One-time access links to ensure confidentiality for recipients',
         'Hardened deployment with Linux administration best practices'
       ],
-      github: 'https://github.com/carlosj1999/privnote',
+      github: 'https://github.com/carlosj1999/Private-Note',
       demoPath: '/privnote/',
-      stars: 96
     },
     {
       title: 'IPAggregator — Network Management',
       description:
         'Operational dashboard for aggregating and tracking IP address allocations across enterprise environments.',
       image: IPAgregator,
-      technologies: ['Python', 'Django', 'PostgreSQL', 'DigitalOcean', 'Tailwind CSS'],
+      technologies: ['Python', 'Django', 'PostgreSQL', 'Tailwind CSS'],
       features: [
         'Aggregated IP inventory with search and filtering across subnets',
         'Real-time tracking views to monitor allocation and usage trends',
         'Administrative tooling for streamlined updates and audits'
       ],
-      github: 'https://github.com/carlosj1999/ipaggregator',
+      github: 'https://github.com/carlosj1999/ip_aggregator',
       demoPath: '/ip_aggregator/',
-      stars: 78
     }
   ];
+
+   const handlePrivateGithubClick = (title: string) => {
+    window.alert(
+      `The Code for "${title}" is private and cannot be shared 🙁`
+    );
+  };
 
   return (
     <section id="projects" className="py-20 bg-gray-800">
@@ -136,17 +138,38 @@ export function Projects() {
                 </div>
                 
                 <div className="flex gap-3">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="flex-1 border-gray-700 text-gray-300 hover:bg-gray-800"
-                    asChild
-                  >
-                    <a href={project.github} target="_blank" rel="noopener noreferrer">
-                      <Github className="h-4 w-4 mr-2" />
-                      Code
-                    </a>
-                  </Button>
+                    {/* GitHub button */}
+                    {project.githubPrivate ? (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="flex-1 border-gray-700 text-gray-300 hover:bg-gray-800"
+                        type="button"
+                        onClick={() => handlePrivateGithubClick(project.title)}
+                      >
+                        <Github className="h-4 w-4 mr-2" />
+                        Private
+                      </Button>
+                    ) : (
+                      project.github && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="flex-1 border-gray-700 text-gray-300 hover:bg-gray-800"
+                          asChild
+                        >
+                          <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <Github className="h-4 w-4 mr-2" />
+                            Code
+                          </a>
+                        </Button>
+                      )
+                    )}
+                    
                   <Button
                     size="sm"
                     className="flex-1 bg-blue-600 hover:bg-blue-700"

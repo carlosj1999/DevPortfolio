@@ -12,10 +12,10 @@ export function Experience() {
       description:
         'Delivered end-to-end web applications with scalable Python backends, modern front-end experiences, and production-ready DevOps pipelines.',
       responsibilities: [
-        'Designed REST and GraphQL APIs in Django and Flask with robust authentication and documentation',
-        'Modeled relational data in PostgreSQL/MySQL, optimized queries, and introduced Redis caching + queues',
+        'Designed REST APIs in Django and Flask with robust authentication and documentation',
+        'Modeled relational data in PostgreSQL, optimized queries, and introduced Redis caching + queues',
         'Implemented Celery-powered background jobs to offload intensive workloads and improve response times',
-        'Shipped feature-rich React and Angular interfaces to maintain parity between API capabilities and UI flows',
+        'Shipped feature-rich React interfaces to maintain parity between API capabilities and UI flows',
         'Containerized services with Docker/Docker Compose and automated CI/CD for testing, linting, and deployments',
         'Configured Azure infrastructure—secrets, monitoring, logging, and health checks—to support resilient releases'
       ],
@@ -24,14 +24,10 @@ export function Experience() {
         'Django',
         'Flask',
         'React',
-        'Angular',
         'PostgreSQL',
-        'MySQL',
-        'Redis',
         'Celery',
         'Docker',
         'Azure',
-        'CI/CD'
       ]
     },
     {
@@ -47,7 +43,7 @@ export function Experience() {
         'Administered Linux servers, automated deployments, and resolved networking issues to cut downtime by 20%',
         'Collaborated with stakeholders to prioritize features, triage incidents, and deliver timely hotfixes'
       ],
-      technologies: ['Python', 'Django', 'AWS', 'Linux', 'Docker', 'Git']
+      technologies: ['Python', 'Django', 'AWS', 'Linux', 'Docker']
     },
     {
       title: 'Life and Safety Mechanic II',
@@ -61,7 +57,7 @@ export function Experience() {
         'Partnered with cross-functional teams to safeguard uptime for research activities and campus operations',
         'Documented procedures and preventative maintenance plans to enhance reliability and knowledge transfer'
       ],
-      technologies: ['Problem Solving', 'Teamwork', 'Process Improvement']
+      technologies: ['Problem Solving', 'Teamwork', 'Process Improvement', 'Fire Alarm Systems']
     },
     {
       title: 'Data Engineering & Analytics Intern',
@@ -75,7 +71,7 @@ export function Experience() {
         'Built dashboards in AWS QuickSight, reducing stakeholder reporting time by 30%',
         'Partnered with analysts to uncover data patterns and deliver actionable insights for customers'
       ],
-      technologies: ['AWS QuickSight', 'MySQL', 'Data Analysis', 'Python']
+      technologies: ['AWS', 'MySQL', 'Data Analysis', 'Python']
     }
   ];
 
