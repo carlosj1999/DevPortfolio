@@ -6,6 +6,7 @@ import IPAgregator from '../assets/projects/ip_aggregator.png';
 import Privnote from '../assets/projects/privnote.png';
 import Shortener from '../assets/projects/URL-Shortener.png';
 import YuniorInk from '../assets/projects/Yunior_ink.png';
+import BreakTaxGroup from '../assets/projects/breaktax.png';
 import { resolveBackendUrl } from '../utils/backend';
 
 type Project = {
@@ -35,6 +36,20 @@ export function Projects() {
       ],
       githubPrivate: true, 
       demo: 'https://yunior.ink/',
+    },
+    {
+      title: 'Break Tax Group — Tax & Accounting Website',
+      description:
+        'Responsive marketing and lead-generation site for a tax and accounting firm, focused on clear service communication, SEO, and frictionless client onboarding.',
+      image: BreakTaxGroup,
+      technologies: ['React', 'Docker', 'Vite', 'Tailwind CSS', 'Node.js', 'Brevo API', 'Calendly'],
+      features: [
+        'Pure React front end implemented from a Figma design system for consistent branding and layout',
+        'Integrated Brevo-powered contact flows for secure inquiries, automated email responses, and lead capture',
+        'Embedded Calendly booking experiences for self-service appointment scheduling and calendar coordination'
+      ],
+      githubPrivate: true,
+      demo: 'https://breaktaxgroup.com',
     },
     {
       title: 'URL Shortener Platform',
