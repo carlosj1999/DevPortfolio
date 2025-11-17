@@ -142,7 +142,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "static/")
+STATIC_URL = os.environ.get("DJANGO_STATIC_URL", "/static/")
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [
     path
@@ -206,7 +206,7 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = _env_bool(
 )
 SECURE_HSTS_PRELOAD = _env_bool("DJANGO_SECURE_HSTS_PRELOAD", default=False)
 # SECURE_SSL_REDIRECT = _env_bool("DJANGO_SECURE_SSL_REDIRECT", default=not DEBUG)
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False
 X_FRAME_OPTIONS = "DENY"
 
 LOGGING = {
