@@ -7,6 +7,7 @@ import Privnote from '../assets/projects/privnote.png';
 import Shortener from '../assets/projects/URL-Shortener.png';
 import YuniorInk from '../assets/projects/Yunior_ink.png';
 import BreakTaxGroup from '../assets/projects/breaktax.png';
+import VPPowerControl from '../assets/projects/vppowercontrol.png';
 import { resolveBackendUrl } from '../utils/backend';
 
 type Project = {
@@ -50,6 +51,20 @@ export function Projects() {
       ],
       githubPrivate: true,
       demo: 'https://breaktaxgroup.com',
+    },
+    {
+      title: 'VP Power Control — Low Voltage Systems Website',
+      description:
+        'Marketing website for a low voltage contractor, built from a Figma design with fast load times, clear service storytelling, and lead capture.',
+      image: VPPowerControl,
+      technologies: ['Python', 'Django', 'HTML', 'CSS', 'JavaScript'],
+      features: [
+        'Figma-to-code implementation with modular Django templates and static assets',
+        'Service sections, project highlights, and CTA placement optimized for conversions',
+        'Responsive layout with performance-focused assets and semantic markup'
+      ],
+      githubPrivate: true,
+      demo: 'https://www.vppowercontrol.com',
     },
     {
       title: 'URL Shortener Platform',
