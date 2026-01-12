@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "privnote",
     "shortener",
     "bot",
+    "tips",
 ]
 
 MIDDLEWARE = [

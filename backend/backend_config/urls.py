@@ -14,6 +14,6 @@ urlpatterns = [
     path('privnote/', include('privnote.urls', namespace='privnote')),
     path('shortener/', include('shortener.urls', namespace='shortener')),
     path('bot/', include('bot.urls', namespace='bot')),
+    path("tips/", include("tips.urls", namespace="tips")),
 
 ]
-

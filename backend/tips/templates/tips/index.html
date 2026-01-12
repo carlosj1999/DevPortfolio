@@ -1,0 +1,256 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tips & Share | Full-Stack Developer</title>
+    <meta
+        name="description"
+        content="Support my full-stack development team with a tip and learn more about the work behind our projects."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400;600&display=swap"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'tips/css/styles.css' %}" />
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+        <div class="container header__inner">
+            <div class="brand">
+                <span class="brand__icon material-symbols-outlined">local_bar</span>
+                <div>
+                    <span class="brand__title">Tips & Share</span>
+                    <span class="brand__subtitle">Full-stack developer</span>
+                </div>
+            </div>
+            <nav class="nav" aria-label="Primary">
+                <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-links">
+                    <span></span>
+                    <span></span>
+                </button>
+                <div id="nav-links" class="nav__links">
+                    <a href="#tips">Tip methods</a>
+                    <a href="#about">About</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </nav>
+            <a class="button button--ghost" href="#contact">Support the team</a>
+        </div>
+    </header>
+
+    <main id="main">
+        <section id="tips" class="section section--tips">
+            <div class="container">
+                <div class="section__header">
+                    <div>
+                        <p class="eyebrow">Tip options</p>
+                        <h2>Choose the method that works best for you.</h2>
+                    </div>
+                    <p class="section__lead">
+                        Every contribution supports the team. Tips are never required, always appreciated.
+                    </p>
+                </div>
+                <div class="tip-grid">
+                    {% for method in tip_methods %}
+                    <article class="tip-card tip-card--{{ method.slug }} reveal">
+                        <div class="tip-card__icon material-symbols-outlined">{{ method.icon }}</div>
+                        <div class="tip-card__content">
+                            <h3>{{ method.name }}</h3>
+                            <p class="tip-card__handle" data-handle>{{ method.handle }}</p>
+                        </div>
+                        <div class="tip-card__actions">
+                            <button class="button button--ghost" type="button" data-copy>
+                                Copy
+                            </button>
+                            <a class="button" href="{{ method.link }}" target="_blank" rel="noopener noreferrer">
+                                Open
+                            </a>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+                <div class="tip-note">
+                    <span class="material-symbols-outlined">volunteer_activism</span>
+                    <p>Have a project in mind? Tips can be applied toward future build credit.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="hero">
+            <div class="container hero__grid">
+                <div class="hero__content reveal">
+                    <p class="eyebrow">Support the craft</p>
+                    <h1>Tips that power my team, my clients, and the work we ship.</h1>
+                    <p class="lead">
+                        I build full-stack web products with a focus on speed, clarity, and results. Tips
+                        help us reinvest in tooling, prototyping, and faster delivery.
+                    </p>
+                    <div class="hero__actions">
+                        <a class="button" href="#tips">Send a tip</a>
+                        <a class="button button--ghost" href="#about">Meet the developer</a>
+                    </div>
+                    <div class="hero__stats">
+                        <div>
+                            <span class="hero__stat-value">7+ yrs</span>
+                            <span class="hero__stat-label">Full-stack delivery</span>
+                        </div>
+                        <div>
+                            <span class="hero__stat-value">60+</span>
+                            <span class="hero__stat-label">Projects launched</span>
+                        </div>
+                        <div>
+                            <span class="hero__stat-value">24h</span>
+                            <span class="hero__stat-label">Avg response time</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero__glow"></div>
+        </section>
+
+        <section id="about" class="section section--glass">
+            <div class="container split">
+                <div class="reveal">
+                    <p class="eyebrow">Behind the keyboard</p>
+                    <h2>Hi, I am Carlos, a full-stack developer focused on measurable outcomes.</h2>
+                    <p>
+                        I partner with founders and operations teams to turn concepts into production-grade
+                        web experiences. My work emphasizes strong back-end architecture, user-first design,
+                        and measurable business outcomes.
+                    </p>
+                    <ul class="checklist">
+                        {% for item in highlights %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="profile-card reveal">
+                    <div class="profile-card__header">
+                        <span class="material-symbols-outlined">terminal</span>
+                        <div>
+                            <p class="profile-card__title">Full-stack toolkit</p>
+                            <p class="profile-card__subtitle">Delivery-ready stack</p>
+                        </div>
+                    </div>
+                    <div class="tag-grid">
+                        {% for tech in tech_stack %}
+                        <span>{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                    <div class="profile-card__footer">
+                        <p>Based in Miami • Available for remote builds</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="section">
+            <div class="container">
+                <div class="section__header">
+                    <div>
+                        <p class="eyebrow">Recent work</p>
+                        <h2>Selected builds delivered with speed and clarity.</h2>
+                    </div>
+                    <a class="button button--ghost" href="https://carlosjportfolio.com" target="_blank" rel="noopener noreferrer">
+                        View portfolio
+                    </a>
+                </div>
+                <div class="project-grid">
+                    {% for project in projects %}
+                    <article class="project-card reveal">
+                        <div>
+                            <h3>{{ project.title }}</h3>
+                            <p>{{ project.summary }}</p>
+                        </div>
+                        <div class="project-card__meta">
+                            <span>{{ project.tag }}</span>
+                            <a href="{{ project.link }}" target="_blank" rel="noopener noreferrer">
+                                Open
+                            </a>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="section section--accent">
+            <div class="container contact-grid">
+                <div class="contact-copy reveal">
+                    <p class="eyebrow">Contact</p>
+                    <h2>Want to collaborate or sponsor a new build?</h2>
+                    <p>
+                        Tips are handled directly through the links above. If you want to partner, send a
+                        note and we will respond quickly.
+                    </p>
+                    <div class="contact-info">
+                        <div>
+                            <p class="contact-label">Primary email</p>
+                            <p class="contact-value">cjibanez1999@gmail.com</p>
+                        </div>
+                        <div>
+                            <p class="contact-label">Location</p>
+                            <p class="contact-value">Miami, FL</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-card reveal">
+                    <h3>Let’s build together</h3>
+                    <p>
+                        Share your goals, timeline, and budget range. We specialize in full-stack launches
+                        with clear milestones and weekly updates.
+                    </p>
+                    <a class="button" href="mailto:cjibanez1999@gmail.com">Email Carlos</a>
+                    <p class="contact-card__note">Typical response: within 1 business day.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <p class="footer-title">Tips & Share</p>
+                <p>Thanks for backing independent builders and creators.</p>
+            </div>
+            <div>
+                <p class="footer-title">Connect</p>
+                <ul>
+                    <li><a href="https://github.com/carlosj1999" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                    <li><a href="https://linkedin.com/in/carlos-ibanez99" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                    <li><a href="https://www.instagram.com/porsi_bar/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                    <li><a href="https://carlosjportfolio.com" target="_blank" rel="noopener noreferrer">Portfolio</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="footer-title">Contact</p>
+                <ul>
+                    <li>cjibanez1999@gmail.com</li>
+                    <li>Miami, FL</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Carlos Ibanez Couto. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="floating-cta">
+        <span>Have a project in mind?</span>
+        <a class="button" href="mailto:cjibanez1999@gmail.com">Let’s chat</a>
+    </div>
+
+    <script src="{% static 'tips/js/main.js' %}"></script>
+</body>
+</html>
