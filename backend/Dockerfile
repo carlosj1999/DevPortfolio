@@ -124,6 +124,9 @@ RUN mkdir -p staticfiles media logs && \
 
 USER django
 
+# Collect static assets with production storage settings (required for WhiteNoise manifest storage).
+RUN DJANGO_DEBUG=False DJANGO_ALLOWED_HOSTS=localhost python manage.py collectstatic --noinput
+
 
 EXPOSE 8000
 
