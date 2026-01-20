@@ -48,8 +48,10 @@ services:
 
     volumes:
       - ./backend:/app
-      - backend_static:/app/staticfiles
-      - backend_media:/app/media
+      - ./backend/staticfiles:/app/staticfiles
+      - ./backend/media:/app/media
+      # - backend_static:/app/staticfiles
+      # - backend_media:/app/media
 
     # environment:
     #   - DJANGO_DEBUG=${DJANGO_DEBUG:-False}
