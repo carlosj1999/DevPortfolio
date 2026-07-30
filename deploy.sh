@@ -17,6 +17,19 @@
 #
 set -Eeuo pipefail
 
+# This script pulls the repo it lives in, so a deploy that updates deploy.sh
+# rewrites the file bash is still reading -- bash reads scripts incrementally
+# and will execute a mix of the old and new versions. Re-exec from a private
+# copy so the running script is immutable for the whole deploy. Changes to
+# deploy.sh therefore take effect on the NEXT run, which is predictable.
+if [[ -z "${DEPLOY_PINNED:-}" ]]; then
+  _pinned=$(mktemp "${TMPDIR:-/tmp}/deploy.XXXXXX") || exit 1
+  cat "$0" > "$_pinned"
+  chmod +x "$_pinned"
+  DEPLOY_PINNED="$_pinned" exec "$_pinned" "$@"
+fi
+trap 'rm -f "$DEPLOY_PINNED"' EXIT
+
 PROJECT_ROOT="${PROJECT_ROOT:-/var/www/DevPortfolio}"
 BACKUP_DIR="${BACKUP_DIR:-/root/backups}"
 CONTAINER="${CONTAINER:-portfolio-backend}"
