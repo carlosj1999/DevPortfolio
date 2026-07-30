@@ -7,7 +7,7 @@ import Privnote from '../assets/projects/privnote.png';
 import Shortener from '../assets/projects/URL-Shortener.png';
 import YuniorInk from '../assets/projects/Yunior_ink.png';
 import BreakTaxGroup from '../assets/projects/breaktax.png';
-import VPPowerControl from '../assets/projects/vppowercontrol.png';
+import VPPowerControl from '../assets/projects/vppowercontrol.webp';
 import { resolveBackendUrl } from '../utils/backend';
 
 type Project = {
@@ -81,9 +81,9 @@ export function Projects() {
       demoPath: '/shortener/',
     },
     {
-      title: 'PrivNote — Encrypted Notes',
+      title: 'PrivNote — Self-Destructing Notes',
       description:
-        'End-to-end encrypted note application that supports expiring, one-time view links for sensitive communication.',
+        'Private note-sharing app built around expiring, one-time-view links for sensitive communication.',
       image: Privnote,
       technologies: ['Python', 'Django', 'Ubuntu', 'AlmaLinux', 'CSS'],
       features: [

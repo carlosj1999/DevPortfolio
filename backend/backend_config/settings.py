@@ -25,8 +25,17 @@ def _env_bool(name: str, default: bool = False) -> bool:
     return value.lower() in {"1", "true", "yes", "on"}
 
 
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", get_random_secret_key())
 DEBUG = _env_bool("DJANGO_DEBUG", default=True)
+
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
+if not SECRET_KEY:
+    if not DEBUG:
+        # An ephemeral key in production invalidates every session and CSRF
+        # token on each restart, so fail loudly instead.
+        raise ImproperlyConfigured(
+            "DJANGO_SECRET_KEY must be set when DEBUG is False."
+        )
+    SECRET_KEY = get_random_secret_key()
 
 ALLOWED_HOSTS = _split_env_list(os.environ.get("DJANGO_ALLOWED_HOSTS")) or (
     ["*"] if DEBUG else []
@@ -167,6 +176,13 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+REST_FRAMEWORK = {
+    "DEFAULT_THROTTLE_RATES": {
+        # Public, unauthenticated chat endpoint backed by a paid API key.
+        "chatbot": os.environ.get("CHATBOT_THROTTLE_RATE", "20/hour"),
+    },
+}
+
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
 
@@ -206,8 +222,9 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = _env_bool(
     "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=not DEBUG
 )
 SECURE_HSTS_PRELOAD = _env_bool("DJANGO_SECURE_HSTS_PRELOAD", default=False)
-# SECURE_SSL_REDIRECT = _env_bool("DJANGO_SECURE_SSL_REDIRECT", default=not DEBUG)
-SECURE_SSL_REDIRECT = False
+# Off by default: the reverse proxy already 301s http -> https, and doing it
+# here as well can cause a redirect loop if X-Forwarded-Proto isn't forwarded.
+SECURE_SSL_REDIRECT = _env_bool("DJANGO_SECURE_SSL_REDIRECT", default=False)
 X_FRAME_OPTIONS = "DENY"
 
 LOGGING = {

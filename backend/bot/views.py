@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 from django.conf import settings
@@ -5,9 +6,21 @@ from django.utils.translation import gettext_lazy as _
 from openai import APIConnectionError, APIError, AuthenticationError, OpenAI, RateLimitError
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle
 from rest_framework.views import APIView
 
 from .serializers import ChatRequestSerializer
+
+logger = logging.getLogger(__name__)
+
+# Bounds the cost of any single reply.
+MAX_REPLY_TOKENS = 600
+
+
+class ChatBotThrottle(AnonRateThrottle):
+    """Rate limit the public chat endpoint so it can't be used to burn API credits."""
+
+    scope = "chatbot"
 
 
 class ChatBotView(APIView):
@@ -15,6 +28,7 @@ class ChatBotView(APIView):
 
     authentication_classes = []
     permission_classes = []
+    throttle_classes = [ChatBotThrottle]
 
     def post(self, request, *args, **kwargs):
         serializer = ChatRequestSerializer(data=request.data)
@@ -40,6 +54,9 @@ class ChatBotView(APIView):
                         "Use the personal profile below to answer questions about him.\n"
                         "RULES:\n"
                         "- Always write answers in plain text only. Do NOT use Markdown formatting like **bold**, or headings (#).\n"
+                        "- Keep answers concise: at most a short paragraph or a few list items.\n"
+                        "- When you list several items, put each one on its own line separated by a newline character.\n"
+                        "- Separate paragraphs with a blank line so the answer is easy to scan.\n"
                         "- When listing skills, write them as simple sentences or comma-separated lists.\n"
                         "- Fix any grammar in the user's question, but answer with correct, natural English.\n"
                         "- When referencing URLs from the profile, present them as plain text "
@@ -57,6 +74,8 @@ class ChatBotView(APIView):
             completion = client.chat.completions.create(
                 model=settings.OPENAI_MODEL,
                 messages=messages,
+                max_tokens=MAX_REPLY_TOKENS,
+                timeout=30,
             )
         except AuthenticationError:
             return Response(
@@ -69,8 +88,10 @@ class ChatBotView(APIView):
                 status=status.HTTP_429_TOO_MANY_REQUESTS,
             )
         except (APIConnectionError, APIError) as exc:
+            # Log the detail server-side; don't expose internals to the caller.
+            logger.exception("OpenAI request failed: %s", exc)
             return Response(
-                {"detail": _("Communication with OpenAI failed."), "error": str(exc)},
+                {"detail": _("Communication with OpenAI failed.")},
                 status=status.HTTP_502_BAD_GATEWAY,
             )
 
@@ -78,16 +99,8 @@ class ChatBotView(APIView):
         assistant_message = getattr(choice, "message", None)
         reply = getattr(assistant_message, "content", "") if assistant_message else ""
 
-        messages.append({"role": "assistant", "content": reply})
-
-        return Response(
-            {
-                "reply": reply,
-                "messages": messages,
-                "model": settings.OPENAI_MODEL,
-            },
-            status=status.HTTP_200_OK,
-        )
+        # Only the reply goes back — `messages` holds the system prompt and profile.
+        return Response({"reply": reply}, status=status.HTTP_200_OK)
 
     @staticmethod
     def _load_personal_info() -> str:

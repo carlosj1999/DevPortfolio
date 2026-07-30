@@ -1,13 +1,14 @@
+import ipaddress
+import socket
+
 from django.shortcuts import get_object_or_404, redirect, render
 from .models import ShortenedURL
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from .forms import CustomSignupForm
 from urllib.error import HTTPError, URLError
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 from urllib.parse import urlparse
 
 
@@ -36,37 +37,122 @@ def shorten_url(request):
 
     return render(request, 'shortener/index.html')
 
+class _NoRedirectHandler(HTTPRedirectHandler):
+    """Stop urllib from silently following a redirect into a private address."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
+# Opener that refuses redirects, so every URL we touch has been vetted first.
+_SAFE_OPENER = build_opener(_NoRedirectHandler)
+
+# Hostnames that resolve to the machine itself regardless of DNS.
+_BLOCKED_HOSTNAMES = {'localhost', 'metadata', 'metadata.google.internal'}
+
+# Many hosts reject the default "Python-urllib" agent outright.
+_USER_AGENT = (
+    'Mozilla/5.0 (compatible; PortfolioURLShortener/1.0; '
+    '+https://carlosjportfolio.com)'
+)
+
+# The host answered, it just refuses automated clients — the URL is still real.
+_BOT_BLOCKED_CODES = {401, 403, 405, 406, 429, 999}
+
+
+def _is_public_host(hostname):
+    """Return (ok, error) after checking every address a hostname resolves to.
+
+    Blocks loopback, private, link-local (including the cloud metadata endpoint
+    at 169.254.169.254), and other reserved ranges to prevent SSRF.
+    """
+    if not hostname:
+        return False, 'Please provide a valid HTTP or HTTPS URL.'
+
+    if hostname.lower().rstrip('.') in _BLOCKED_HOSTNAMES:
+        return False, 'That host is not allowed.'
+
+    try:
+        addr_info = socket.getaddrinfo(hostname, None)
+    except socket.gaierror:
+        return False, 'The provided URL is invalid or cannot be reached.'
+
+    for info in addr_info:
+        ip_str = info[4][0]
+        try:
+            ip = ipaddress.ip_address(ip_str)
+        except ValueError:
+            return False, 'That host is not allowed.'
+
+        if (
+            ip.is_private
+            or ip.is_loopback
+            or ip.is_link_local
+            or ip.is_reserved
+            or ip.is_multicast
+            or ip.is_unspecified
+        ):
+            return False, 'That host is not allowed.'
+
+        # IPv6-mapped IPv4 (::ffff:127.0.0.1) sidesteps the checks above.
+        mapped = getattr(ip, 'ipv4_mapped', None)
+        if mapped is not None and (
+            mapped.is_private or mapped.is_loopback or mapped.is_link_local
+        ):
+            return False, 'That host is not allowed.'
+
+    return True, None
+
+
 def _is_url_accessible(url):
     """Return a tuple of (is_valid, error_message)."""
     if not url:
         return False, 'Please provide a URL to shorten.'
 
+    if len(url) > 500:
+        return False, 'That URL is too long.'
+
     parsed_url = urlparse(url)
     if parsed_url.scheme not in {'http', 'https'}:
         return False, 'Please provide a valid HTTP or HTTPS URL.'
 
-    request = Request(url, method='HEAD')
+    try:
+        hostname = parsed_url.hostname
+    except ValueError:
+        return False, 'Please provide a valid HTTP or HTTPS URL.'
+
+    is_public, host_error = _is_public_host(hostname)
+    if not is_public:
+        return False, host_error
+
+    request = Request(url, method='HEAD', headers={'User-Agent': _USER_AGENT})
 
     try:
-        with urlopen(request, timeout=5) as response:
+        with _SAFE_OPENER.open(request, timeout=5) as response:
             if 200 <= response.status < 400:
                 return True, None
             return False, f'The provided URL is not accessible (Status Code: {response.status}).'
     except HTTPError as exc:
-        # Received a valid response with an HTTP error status code
+        # A 3xx surfaces here because redirects are disabled; treat it as reachable.
+        if 300 <= exc.code < 400 or exc.code in _BOT_BLOCKED_CODES:
+            return True, None
         return False, f'The provided URL is not accessible (Status Code: {exc.code}).'
     except URLError:
         # DNS errors, refused connections, etc.
         pass
 
     # Some servers might not allow HEAD requests; fall back to GET
-    get_request = Request(url)
+    get_request = Request(url, headers={'User-Agent': _USER_AGENT})
     try:
-        with urlopen(get_request, timeout=5) as response:
+        with _SAFE_OPENER.open(get_request, timeout=5) as response:
             if 200 <= response.status < 400:
                 return True, None
             return False, f'The provided URL is not accessible (Status Code: {response.status}).'
-    except (HTTPError, URLError):
+    except HTTPError as exc:
+        if 300 <= exc.code < 400 or exc.code in _BOT_BLOCKED_CODES:
+            return True, None
+        return False, f'The provided URL is not accessible (Status Code: {exc.code}).'
+    except URLError:
         return False, 'The provided URL is invalid or cannot be reached.'
 
 
@@ -102,15 +188,7 @@ def user_links(request):
         # Ensure the URL is built from the root (by prepending '/')
         link.full_url = request.build_absolute_uri(f'/shortener/{link.short_code}')
     return render(request, 'shortener/user_links.html', {'user_links': user_links})
-''' OLD
-def shorten_url(request):
-    if request.method == 'POST':
-        original_url = request.POST.get('url')
-        new_short_url = ShortenedURL.objects.create(original_url=original_url)
-        shortened_url = request.build_absolute_uri(f'/{new_short_url.short_code}')  # Generates full URL
-        return render(request, 'shortener/index.html', {'shortened_url': shortened_url})
-    return render(request, 'shortener/index.html')
-'''
+
 def redirect_url(request, short_code):
     short_url = get_object_or_404(ShortenedURL, short_code=short_code)
     return redirect(short_url.original_url)

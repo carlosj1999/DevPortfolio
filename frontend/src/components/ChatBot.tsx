@@ -103,8 +103,9 @@ export function ChatBot() {
     }
     };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       handleSendMessage();
     }
   };
@@ -198,7 +199,9 @@ export function ChatBot() {
                             : 'bg-gray-800 text-gray-200'
                         }`}
                       >
-                        <p className="text-sm">{message.text}</p>
+                        <p className="text-sm whitespace-pre-wrap break-words leading-relaxed">
+                          {message.text}
+                        </p>
                       </div>
                       {message.sender === 'user' && (
                         <div className="h-8 w-8 rounded-full bg-gray-700 flex items-center justify-center flex-shrink-0">
@@ -253,7 +256,7 @@ export function ChatBot() {
                   <Input
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={handleKeyPress}
+                    onKeyDown={handleKeyDown}
                     placeholder="Ask me anything about Carlos..."
                     className="bg-gray-800 border-gray-700 text-white placeholder:text-gray-500"
                   />
