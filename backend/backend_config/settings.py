@@ -7,10 +7,7 @@ from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIST_DIR = BASE_DIR / "frontend_dist"
-# SECRET_KEY = "django-insecure-g2v$8all&6imd*5!xp=4(-0*l!x02g&$%-df*9)2w&u=36fg+9"
-# DEBUG = True
 
-# ALLOWED_HOSTS = ["*"]
 
 def _split_env_list(value: str | None) -> list[str]:
     if not value:
