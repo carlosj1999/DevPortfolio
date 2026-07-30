@@ -45,7 +45,7 @@ on_error() {
   if [[ -n "$ROLLBACK_SHA" ]]; then
     printf 'To roll back:\n  cd %s && git reset --hard %s\n' "$PROJECT_ROOT" "$ROLLBACK_SHA" >&2
     [[ -n "$DB_BACKUP" ]] && printf '  tar xzf %s -C %s\n' "$DB_BACKUP" "$PROJECT_ROOT" >&2
-    printf '  docker compose up -d --no-deps %s\n' "$CONTAINER" >&2
+    printf '  docker compose up -d --no-deps %s\n' "${SERVICE:-$CONTAINER}" >&2
   fi
 }
 trap 'on_error $LINENO' ERR
@@ -59,7 +59,13 @@ log "Preflight checks"
 command -v docker >/dev/null || die "docker not found"
 docker compose version >/dev/null 2>&1 || die "docker compose plugin not available"
 docker inspect "$CONTAINER" >/dev/null 2>&1 || die "Container '$CONTAINER' does not exist"
-ok "docker and container '$CONTAINER' present"
+
+# `docker compose up` takes the SERVICE name, which is not the container_name.
+# Read it off the container's own compose label so the two can never drift.
+SERVICE="${SERVICE:-$(docker inspect "$CONTAINER" \
+  --format '{{index .Config.Labels "com.docker.compose.service"}}' 2>/dev/null)}"
+[[ -z "$SERVICE" ]] && die "Could not determine the compose service for '$CONTAINER'. Set SERVICE=<name>."
+ok "container '$CONTAINER' present (compose service: $SERVICE)"
 
 # A full disk is how this deploy fails most destructively: collectstatic writes
 # partial files and the site breaks with no obvious cause.
@@ -134,7 +140,7 @@ run "docker exec '$CONTAINER' python manage.py collectstatic --noinput"
 
 # ------------------------------------------------------------------ restart
 log "Restarting $CONTAINER"
-run "docker compose up -d --no-deps '$CONTAINER'"
+run "docker compose up -d --no-deps '$SERVICE'"
 
 # ------------------------------------------------------------ health check
 log "Health check"
