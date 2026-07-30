@@ -139,8 +139,14 @@ log "Collecting static files"
 run "docker exec '$CONTAINER' python manage.py collectstatic --noinput"
 
 # ------------------------------------------------------------------ restart
-log "Restarting $CONTAINER"
-run "docker compose up -d --no-deps '$SERVICE'"
+# --force-recreate is required, not optional. With DEBUG=False Django enables
+# the cached template loader, so each gunicorn worker holds frontend_dist/
+# index.html in memory. A plain `compose up` no-ops when the config is
+# unchanged, leaving workers serving the PREVIOUS index.html -- which points at
+# asset filenames from the last build. The result is a fraction of visitors
+# getting a stale (or blank) page, varying request to request by worker.
+log "Restarting $CONTAINER (forced, to clear cached templates)"
+run "docker compose up -d --no-deps --force-recreate '$SERVICE'"
 
 # ------------------------------------------------------------ health check
 log "Health check"
@@ -182,6 +188,24 @@ else
 
   (( MISSING )) && die "Referenced assets are not being served - collectstatic likely failed."
   ok "all referenced assets resolve"
+
+  # Asset checks alone are not enough: collectstatic never deletes old files, so
+  # a worker serving a stale template still references a bundle that resolves.
+  # Compare what is actually served against index.html on disk, sampling enough
+  # times to hit every gunicorn worker.
+  log "Verifying served HTML matches the deployed build"
+  EXPECTED=$(grep -oE 'assets/index-[A-Za-z0-9_-]+\.js' backend/frontend_dist/index.html | head -1)
+  if [[ -z "$EXPECTED" ]]; then
+    warn "could not determine expected bundle from index.html - skipping"
+  else
+    STALE=0
+    for _ in $(seq 1 10); do
+      SERVED=$(curl -s --max-time 10 "$HEALTH_URL" | grep -oE 'assets/index-[A-Za-z0-9_-]+\.js' | head -1)
+      [[ "$SERVED" != "$EXPECTED" ]] && STALE=1 && warn "served $SERVED, expected $EXPECTED"
+    done
+    (( STALE )) && die "Workers are serving a stale template. Run: docker restart $CONTAINER"
+    ok "all workers serve $EXPECTED"
+  fi
 fi
 
 # ------------------------------------------------------------------ cleanup
