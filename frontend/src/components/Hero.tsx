@@ -18,9 +18,9 @@ export function Hero() {
             Full Stack Developer
           </p>
           <p className="mt-6 text-base sm:text-lg text-gray-300 max-w-2xl mx-auto">
-            Miami-based engineer crafting performant web applications, resilient APIs, and
-            cloud-native infrastructure with Python, Django, and Flask. Currently focused
-            on improving my AI skills and getting better with JavaScript and TypeScript.
+            Miami-based engineer building multi-tenant SaaS platforms, resilient APIs, and
+            cloud-native infrastructure with Python and Django — plus native iOS apps in
+            SwiftUI. I ship products end to end, from database schema to App Store release.
           </p>
         </div>
 

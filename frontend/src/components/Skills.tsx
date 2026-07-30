@@ -34,7 +34,7 @@ export function Skills() {
   const skillCategories = [
     {
       category: 'Languages & Frameworks',
-      skills: ['Python', 'Java', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Django', 'Flask', 'React', 'Angular']
+      skills: ['Python', 'Swift', 'Java', 'TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Django', 'Flask', 'React', 'SwiftUI', 'Angular']
     },
     {
       category: 'Web & Data Engineering',
@@ -42,7 +42,7 @@ export function Skills() {
     },
     {
       category: 'Cloud & Infrastructure',
-      skills: ['AWS (EC2, S3, Lambda, RDS, QuickSight)', 'Microsoft Azure', 'DigitalOcean', 'Terraform', 'Nginx', 'Linux (Ubuntu, CentOS, AlmaLinux)', 'Windows Server']
+      skills: ['AWS (EC2, S3, Lambda, RDS, QuickSight)', 'Microsoft Azure', 'DigitalOcean', 'Akamai Linode', 'Terraform', 'Nginx', 'Cloudflare', 'Linux (Ubuntu, CentOS, AlmaLinux)', 'Windows Server']
     },
     {
       category: 'Collaboration & Tooling',

@@ -15,13 +15,13 @@ export function About() {
     },
     {
       icon: Cloud,
-      title: 'Cloud Deployments',
+      title: 'Cloud & DevOps',
       description: 'Automating delivery across Azure, AWS, and Dockerized environments with CI/CD best practices'
     },
     {
       icon: Smartphone,
-      title: 'Operational Excellence',
-      description: 'Driving cross-team collaboration, observability, and resilient systems in fast-paced sprints'
+      title: 'Native iOS Development',
+      description: 'Building and shipping SwiftUI apps to the App Store, from StoreKit billing to on-device image processing'
     }
   ];
 
@@ -32,13 +32,15 @@ export function About() {
         
         <div className="max-w-3xl mx-auto mb-12">
           <p className="text-gray-300 text-center mb-6">
-            I'm a full-stack software developer and certified cloud practitioner with experience building
-            scalable products for startups, agencies, and university teams. I enjoy translating business needs
-            into resilient platforms that are maintainable and easy to use.
+            I'm a full-stack software developer and certified cloud practitioner who builds and ships
+            complete products — from multi-tenant SaaS platforms and rental marketplaces to a native
+            iOS app on the App Store. I enjoy translating real business operations into software that
+            people actually rely on day to day.
           </p>
           <p className="text-gray-300 text-center">
-            From architecting Django backends and data pipelines to deploying containerized solutions with
-            CI/CD, I focus on end-to-end quality, collaboration, and measurable impact.
+            From architecting Django backends and relational schemas to containerized deployments,
+            hardened Linux servers, and SwiftUI interfaces, I own the whole stack and focus on
+            end-to-end quality and measurable impact.
           </p>
         </div>
 

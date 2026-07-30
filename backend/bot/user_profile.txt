@@ -74,6 +74,45 @@ Aug 2024 - Present
 Description: Personal portfolio and collection of development projects.
 Technologies: Project management, Python, Django, PostgreSQL, front-end and back-end web development, cloud computing, Docker.
 
+DeskOnFire – Fire Protection Operations Platform – https://deskonfire.com
+2026
+- Multi-tenant SaaS that runs a fire alarm and life-safety business end to end.
+- Built a live dispatch board with one-click reassign, emergency prioritization, and instant technician sync.
+- Developed a technician portal capturing time, photos, deficiencies, and signatures from the field on any device.
+- Implemented recurring NFPA 72 inspection service plans per building and billing-ready work order closeout.
+- Designed tenant-isolated data access so each company only sees its own workspace.
+Technologies: Python, Django, PostgreSQL, Docker, Tailwind CSS, Nginx.
+
+StencilFit – iOS Tattoo Stencil Studio – https://apps.apple.com/us/app/stencilfit/id6786130344
+2026
+- Published a universal iPhone and iPad app to the App Store for tattoo artists, built in SwiftUI.
+- Implemented exact-size PDF and AirPrint export (72pt = 1 inch) with guided printer calibration.
+- Built an on-device Core Image stencil pipeline (threshold, contrast, sharpen, background removal); no data leaves the device.
+- Shipped StoreKit 2 subscriptions with free tier, restore, and lifetime grandfathering for legacy paid customers.
+- Wrote a unit-tested layout/packing engine and localized the app into 24 languages including full right-to-left support.
+Technologies: Swift, SwiftUI, Core Image, PDFKit, StoreKit 2, XCTest.
+
+Alpha Tools – Heavy Equipment Rental Platform – https://alphatoolllc.com
+2026
+- Built a rental platform for an industrial heavy equipment company.
+- Developed a searchable fleet catalog with per-machine specs and real-time availability by date.
+- Implemented a quote and booking flow with integrated payments and no required customer account.
+- Added secure Request ID tracking so customers follow an order from quote through on-site delivery.
+Technologies: Python, Django, PostgreSQL, Tailwind CSS, Docker, Stripe.
+
+Break Tax Group – Tax & Accounting Website – https://breaktaxgroup.com
+2025
+- Built a React marketing and lead-generation site from a Figma design system.
+- Integrated Brevo contact flows for secure inquiries, automated email responses, and lead capture.
+- Embedded Calendly scheduling for self-service appointment booking.
+Technologies: React, Vite, Tailwind CSS, Docker, Node.js, Brevo API, Calendly.
+
+VP Power Control – Low Voltage Systems Website – https://www.vppowercontrol.com
+2025
+- Implemented a Figma design as modular Django templates with performance-focused static assets.
+- Structured service sections and CTA placement for lead conversion.
+Technologies: Python, Django, HTML, CSS, JavaScript.
+
 Yunior Ink – Tattoo Portfolio & Booking Platform – http://yunior.ink/
 Sep 2025
 - Built a clean, responsive portfolio with fast-loading galleries and on-page SEO.
@@ -93,7 +132,7 @@ Technologies: Python, Django, SQLite, HTML, CSS, Bootstrap, GitHub.
 
 PrivNote
 Jul 2024
-- Built a secure, self-destructing note platform with end-to-end encryption.
+- Built a private note-sharing platform with self-destructing links.
 - Added customizable expiration and one-time view functionality.
 Technologies: Python, Django, DigitalOcean, Ubuntu, Alma9, CSS, HTML, GitHub.
 

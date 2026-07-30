@@ -1,13 +1,16 @@
-import { ExternalLink, Github } from 'lucide-react';
+import { Apple, ExternalLink, Github } from 'lucide-react';
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import IPAgregator from '../assets/projects/ip_aggregator.png';
-import Privnote from '../assets/projects/privnote.png';
-import Shortener from '../assets/projects/URL-Shortener.png';
-import YuniorInk from '../assets/projects/Yunior_ink.png';
-import BreakTaxGroup from '../assets/projects/breaktax.png';
+import IPAgregator from '../assets/projects/ip_aggregator.webp';
+import Privnote from '../assets/projects/privnote.webp';
+import Shortener from '../assets/projects/URL-Shortener.webp';
+import YuniorInk from '../assets/projects/Yunior_ink.webp';
+import BreakTaxGroup from '../assets/projects/breaktax.webp';
 import VPPowerControl from '../assets/projects/vppowercontrol.webp';
+import AlphaTools from '../assets/projects/alphatools.webp';
+import DeskOnFire from '../assets/projects/deskonfire.webp';
+import StencilFit from '../assets/projects/stencilfit.webp';
 import { resolveBackendUrl } from '../utils/backend';
 
 type Project = {
@@ -17,13 +20,61 @@ type Project = {
   technologies: string[];
   features: string[];
   github?: string;
-  githubPrivate?: boolean; 
+  githubPrivate?: boolean;
   demo?: string;
   demoPath?: string;
+  /** Overrides the "Demo" button label, e.g. "App Store" for a shipped app. */
+  demoLabel?: string;
+  /** Renders the Apple mark instead of the external-link icon. */
+  demoIcon?: 'apple';
 };
 
 export function Projects() {
   const projects: Project[] = [
+    {
+      title: 'DeskOnFire — Fire Protection Operations Platform',
+      description:
+        'Multi-tenant SaaS that runs a fire alarm and life-safety business end to end: dispatch, NFPA inspections, technicians, and billing-ready closeout in one workspace.',
+      image: DeskOnFire,
+      technologies: ['Python', 'Django', 'PostgreSQL', 'Docker', 'Tailwind CSS', 'Nginx'],
+      features: [
+        'Live dispatch board with one-click reassign, emergency prioritization, and instant technician sync',
+        'Technician portal capturing time, photos, deficiencies, and signatures from any device in the field',
+        'Tenant-isolated workspaces with recurring NFPA service plans and billing-ready work order closeout'
+      ],
+      githubPrivate: true,
+      demo: 'https://deskonfire.com',
+    },
+    {
+      title: 'StencilFit — iOS Tattoo Stencil Studio',
+      description:
+        'Universal iPhone and iPad app for tattoo artists, published on the App Store. Lays out and prints stencil sheets at exact physical scale, entirely on-device.',
+      image: StencilFit,
+      technologies: ['Swift', 'SwiftUI', 'Core Image', 'PDFKit', 'StoreKit 2', 'XCTest'],
+      features: [
+        'Exact-size PDF and AirPrint export (72pt = 1in) with guided printer calibration for true-to-scale output',
+        'On-device Core Image stencil pipeline — threshold, contrast, and background removal with no data leaving the phone',
+        'Shipped with StoreKit 2 subscriptions, a unit-tested layout engine, and 24 localizations including full RTL'
+      ],
+      githubPrivate: true,
+      demo: 'https://apps.apple.com/us/app/stencilfit/id6786130344',
+      demoLabel: 'App Store',
+      demoIcon: 'apple',
+    },
+    {
+      title: 'Alpha Tools — Heavy Equipment Rental',
+      description:
+        'Rental platform for an industrial equipment company, covering fleet browsing, availability checks, quote requests, and payment-integrated request tracking.',
+      image: AlphaTools,
+      technologies: ['Python', 'Django', 'PostgreSQL', 'Tailwind CSS', 'Docker', 'Stripe'],
+      features: [
+        'Searchable equipment catalog with per-machine specs and real-time availability by date',
+        'Quote and booking flow with integrated payments — no account required to rent',
+        'Secure Request ID tracking so customers can follow an order from quote to on-site delivery'
+      ],
+      githubPrivate: true,
+      demo: 'https://alphatoolllc.com',
+    },
     {
       title: 'Yunior Ink — Tattoo Portfolio & Booking',
       description:
@@ -133,9 +184,13 @@ export function Projects() {
                 <div className="relative h-48 overflow-hidden">
                   <img
                     src={project.image}
-                    alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
+                    alt={`Screenshot of ${project.title}`}
+                    width={1200}
+                    height={750}
+                    loading={index < 3 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
               </div>
               
               <div className="p-6">
@@ -210,8 +265,12 @@ export function Projects() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Demo
+                      {project.demoIcon === 'apple' ? (
+                        <Apple className="h-4 w-4 mr-2" />
+                      ) : (
+                        <ExternalLink className="h-4 w-4 mr-2" />
+                      )}
+                      {project.demoLabel ?? 'Demo'}
                     </a>
                   </Button>
                 </div>
