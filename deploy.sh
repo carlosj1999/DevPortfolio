@@ -46,7 +46,7 @@ DRY_RUN=0
 log()  { printf '\n\033[1;34m==>\033[0m %s\n' "$*"; }
 ok()   { printf '    \033[0;32m*\033[0m %s\n' "$*"; }
 warn() { printf '    \033[0;33m!\033[0m %s\n' "$*"; }
-die()  { printf '\n\033[0;31mERROR:\033[0m %s\n' "$*" >&2; exit 1; }
+die()  { printf '\n\033[0;31mERROR:\033[0m %s\n' "$*" >&2; on_error "${BASH_LINENO[0]:-$LINENO}"; exit 1; }
 run()  { if (( DRY_RUN )); then printf '    [dry-run] %s\n' "$*"; else eval "$@"; fi; }
 
 ROLLBACK_SHA=""
@@ -58,7 +58,7 @@ on_error() {
   if [[ -n "$ROLLBACK_SHA" ]]; then
     printf 'To roll back:\n  cd %s && git reset --hard %s\n' "$PROJECT_ROOT" "$ROLLBACK_SHA" >&2
     [[ -n "$DB_BACKUP" ]] && printf '  tar xzf %s -C %s\n' "$DB_BACKUP" "$PROJECT_ROOT" >&2
-    printf '  docker compose up -d --no-deps %s\n' "${SERVICE:-$CONTAINER}" >&2
+    printf '  docker compose up -d --build --force-recreate --no-deps %s\n' "${SERVICE:-$CONTAINER}" >&2
   fi
 }
 trap 'on_error $LINENO' ERR
@@ -120,13 +120,12 @@ run "git fetch origin '$BRANCH' --quiet"
 if (( ! DRY_RUN )); then
   BEHIND=$(git rev-list --count "HEAD..origin/$BRANCH")
   if (( BEHIND == 0 )); then
-    ok "already up to date - nothing to deploy"
-    exit 0
+    ok "already up to date - continuing deployment"
+  else
+    ok "$BEHIND commit(s) to apply"
   fi
-  ok "$BEHIND commit(s) to apply"
 
-  # Refuse to clobber uncommitted work; a dirty tree here means someone edited
-  # or built directly on the server and those changes need a human decision.
+  # A retry must not serve uncommitted bind-mounted source either.
   if [[ -n "$(git status --porcelain --untracked-files=no)" ]]; then
     git status --short
     die "Working tree is dirty. Commit, stash, or 'git checkout -- <path>' first."
@@ -143,13 +142,19 @@ if [[ ! -f backend/db.sqlite3 && -n "$DB_BACKUP" && -f "$DB_BACKUP" ]]; then
   ok "database restored"
 fi
 
-# ------------------------------------------------------- migrate + static
+# ------------------------------------------------ build + migrate + static
+# Use short-lived Compose containers so migrations and collectstatic run against
+# the image that will be deployed, before gunicorn starts serving it. The bind
+# mount keeps the generated static files for the final container.
+log "Building $CONTAINER image"
+run "docker compose build '$SERVICE'"
+
 log "Applying migrations"
-run "docker exec '$CONTAINER' python manage.py migrate --noinput"
+run "docker compose run --rm --no-deps '$SERVICE' python manage.py migrate --noinput"
 
 # THE step the old deploy script was missing.
 log "Collecting static files"
-run "docker exec '$CONTAINER' python manage.py collectstatic --noinput"
+run "docker compose run --rm --no-deps '$SERVICE' python manage.py collectstatic --noinput"
 
 # ------------------------------------------------------------------ restart
 # --force-recreate is required, not optional. With DEBUG=False Django enables
@@ -224,8 +229,12 @@ fi
 # ------------------------------------------------------------------ cleanup
 log "Pruning old backups (keeping $KEEP_BACKUPS)"
 if (( ! DRY_RUN )); then
-  ls -t "$BACKUP_DIR"/predeploy-*.tgz 2>/dev/null | tail -n +$((KEEP_BACKUPS + 1)) | xargs -r rm -f
-  ok "$(ls -1 "$BACKUP_DIR"/predeploy-*.tgz 2>/dev/null | wc -l) backup(s) retained"
+  if compgen -G "$BACKUP_DIR/predeploy-*.tgz" >/dev/null; then
+    ls -t "$BACKUP_DIR"/predeploy-*.tgz | tail -n +$((KEEP_BACKUPS + 1)) | xargs -r rm -f
+    ok "$(ls -1 "$BACKUP_DIR"/predeploy-*.tgz | wc -l) backup(s) retained"
+  else
+    ok "0 backup(s) retained"
+  fi
 fi
 
 log "Deploy complete"
