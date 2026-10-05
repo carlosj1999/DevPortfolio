@@ -1,15 +1,15 @@
-import { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Bot, User } from 'lucide-react';
-import { Card } from './ui/card';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { motion, AnimatePresence } from 'motion/react';
-import { resolveBackendUrl } from '../utils/backend';
+import { useState, useRef, useEffect } from "react";
+import { MessageCircle, X, Send, Bot, User } from "lucide-react";
+import { Card } from "./ui/card";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { motion, AnimatePresence } from "motion/react";
+import { resolveBackendUrl } from "../utils/backend";
 
 interface Message {
   id: string;
   text: string;
-  sender: 'user' | 'bot';
+  sender: "user" | "bot";
   timestamp: Date;
 }
 
@@ -17,13 +17,13 @@ export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: '1',
+      id: "1",
       text: "Hi! I'm Carlos's AI assistant. I can answer questions about his education, work experience, projects, certifications, and skills. What would you like to know?",
-      sender: 'bot',
-      timestamp: new Date()
-    }
+      sender: "bot",
+      timestamp: new Date(),
+    },
   ]);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -33,78 +33,84 @@ export function ChatBot() {
     }
   }, [messages, isTyping]);
 
-    const handleSendMessage = async () => {
-      const trimmedMessage = inputValue.trim();
-      if (!trimmedMessage || isTyping) {
-        return;
-      }
+  const handleSendMessage = async () => {
+    const trimmedMessage = inputValue.trim();
+    if (!trimmedMessage || isTyping) {
+      return;
+    }
 
     const historyPayload = messages.map((message) => ({
-      role: message.sender === 'user' ? 'user' : 'assistant',
-      content: message.text
+      role: message.sender === "user" ? "user" : "assistant",
+      content: message.text,
     }));
 
     const userMessage: Message = {
       id: Date.now().toString(),
       text: trimmedMessage,
-      sender: 'user',
-      timestamp: new Date()
+      sender: "user",
+      timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    setInputValue('');
+    setInputValue("");
     setIsTyping(true);
 
     try {
-      const response = await fetch(resolveBackendUrl('/bot/chat/'), {
-        method: 'POST',
+      const response = await fetch(resolveBackendUrl("/bot/chat/"), {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           message: trimmedMessage,
-          history: historyPayload
-        })
+          history: historyPayload,
+        }),
       });
 
-      const data: { reply?: string; detail?: string } | null = await response.json().catch(() => null);
+      const data: { reply?: string; detail?: string } | null = await response
+        .json()
+        .catch(() => null);
 
       if (!response.ok) {
-        const detail = data?.detail || 'The assistant is unavailable right now. Please try again later.';
+        const detail =
+          data?.detail ||
+          "The assistant is unavailable right now. Please try again later.";
         throw new Error(detail);
       }
 
-      const replyText = data?.reply?.trim() || 'I did not receive a response from the assistant. Could you please try again?';
+      const replyText =
+        data?.reply?.trim() ||
+        "I did not receive a response from the assistant. Could you please try again?";
 
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
         text: replyText,
-        sender: 'bot',
-        timestamp: new Date()
+        sender: "bot",
+        timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, botResponse]);
-      } catch (error) {
+    } catch (error) {
       const errorMessage =
         error instanceof Error
           ? error.message
-          : 'Something went wrong while reaching the assistant. Please try again shortly.';
+          : "Something went wrong while reaching the assistant. Please try again shortly.";
 
       const fallbackResponse: Message = {
         id: (Date.now() + 1).toString(),
         text: errorMessage,
-        sender: 'bot',
-        timestamp: new Date()
+        sender: "bot",
+        timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, fallbackResponse]);
     } finally {
       setIsTyping(false);
     }
-    };
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
@@ -114,7 +120,7 @@ export function ChatBot() {
     "What's your experience?",
     "Tell me about your projects",
     "What skills do you have?",
-    "How can I contact you?"
+    "How can I contact you?",
   ];
 
   const handleQuickQuestion = (question: string) => {
@@ -134,6 +140,7 @@ export function ChatBot() {
           >
             <Button
               onClick={() => setIsOpen(true)}
+              aria-label="Open portfolio assistant"
               className="h-14 w-14 rounded-full bg-blue-600 hover:bg-blue-700 shadow-lg hover:shadow-xl transition-all"
               size="icon"
             >
@@ -150,7 +157,7 @@ export function ChatBot() {
             initial={{ opacity: 0, y: 100, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.8 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed bottom-6 right-6 z-50 w-[90vw] sm:w-96"
           >
             <Card className="bg-gray-900 border-gray-700 shadow-2xl overflow-hidden flex flex-col h-[600px] max-h-[80vh]">
@@ -169,6 +176,7 @@ export function ChatBot() {
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsOpen(false)}
+                  aria-label="Close portfolio assistant"
                   className="text-white hover:bg-white/20"
                 >
                   <X className="h-5 w-5" />
@@ -176,7 +184,10 @@ export function ChatBot() {
               </div>
 
               {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 bg-gray-850" ref={scrollRef}>
+              <div
+                className="flex-1 overflow-y-auto p-4 bg-gray-850"
+                ref={scrollRef}
+              >
                 <div className="space-y-4">
                   {messages.map((message) => (
                     <motion.div
@@ -184,26 +195,28 @@ export function ChatBot() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className={`flex gap-2 ${
-                        message.sender === 'user' ? 'justify-end' : 'justify-start'
+                        message.sender === "user"
+                          ? "justify-end"
+                          : "justify-start"
                       }`}
                     >
-                      {message.sender === 'bot' && (
+                      {message.sender === "bot" && (
                         <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
                           <Bot className="h-5 w-5 text-white" />
                         </div>
                       )}
                       <div
                         className={`max-w-[80%] rounded-lg p-3 ${
-                          message.sender === 'user'
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-gray-800 text-gray-200'
+                          message.sender === "user"
+                            ? "bg-blue-600 text-white"
+                            : "bg-gray-800 text-gray-200"
                         }`}
                       >
                         <p className="text-sm whitespace-pre-wrap break-words leading-relaxed">
                           {message.text}
                         </p>
                       </div>
-                      {message.sender === 'user' && (
+                      {message.sender === "user" && (
                         <div className="h-8 w-8 rounded-full bg-gray-700 flex items-center justify-center flex-shrink-0">
                           <User className="h-5 w-5 text-gray-300" />
                         </div>
@@ -222,9 +235,18 @@ export function ChatBot() {
                       </div>
                       <div className="bg-gray-800 rounded-lg p-3">
                         <div className="flex gap-1">
-                          <span className="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                          <span className="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                          <span className="h-2 w-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                          <span
+                            className="h-2 w-2 bg-gray-500 rounded-full animate-bounce"
+                            style={{ animationDelay: "0ms" }}
+                          ></span>
+                          <span
+                            className="h-2 w-2 bg-gray-500 rounded-full animate-bounce"
+                            style={{ animationDelay: "150ms" }}
+                          ></span>
+                          <span
+                            className="h-2 w-2 bg-gray-500 rounded-full animate-bounce"
+                            style={{ animationDelay: "300ms" }}
+                          ></span>
                         </div>
                       </div>
                     </motion.div>
